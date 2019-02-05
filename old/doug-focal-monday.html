@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      box-sizing: border-box;
+      transition: 100ms all;
+      /* yeah buddy :) */
+    }
+
+    /* for the demo limit the "uploaded" photo container to 1170px */
+    .image-wrapper {
+      max-width: 1170px;
+      position: relative;
+
+    }
+
+    /* uploaded photo fills its container */
+    .uploaded {
+      width: 100%;
+    }
+
+    /* overlay this guy atop whatever image is uploaded */
+    .grid {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      border-top: 1px solid #000;
+    }
+
+    /* this colours in the square that was clicked */
+    .grid-box {
+      background: #1078b2;
+      border-bottom: 1px solid #000;
+      border-right: 1px solid #000;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 0;
+      width: 0;
+      z-index: 10;
+    }
+
+    .output-wrapper {
+
+    }
+
+    .output {
+      overflow: hidden;
+      width: 350px;
+      height: 400px;
+      border: 2px solid #000;
+      margin: 10px;
+      position: relative;
+      float: left;
+    }
+
+    @media (max-width: 1000px) {
+      .output {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+
+<body> 
+  
+    <h1>Upload image and select the focal point:</h1><br>
+
+  <input type="file" onchange="previewFile()"><br>
+  
+  
+    <div class="image-wrapper">
+        <img src="image.jpg" class="uploaded" />
+        <div class="js-grid grid"></div>      
+        <div class="js-box grid-box"></div>
+    </div>
+
+    <br><br>
+
+    <h1>Output:</h1><br>
+  
+
+
+    <!-- various output image sizes - output class should be hidden with no-js -->  
+    <div class="output-wrapper">
+
+      <div class="output" style="width: 200px; height: 1040px;">
+          <img src="image.jpg" class="js-output" style="min-height: 100%;" />
+      </div>       
+
+      <div class="output" style="width: 900px; height: 150px">
+          <img src="image.jpg" class="js-output" style="width: 100%; "/>
+      </div>    
+
+      <div class="output" style="width: 600px; height: 150px">
+          <img src="image.jpg" class="js-output" style="width: 100%; "/>
+      </div>        
+
+      <div class="output" style="width: 900px; height: 450px;">
+          <img src="image.jpg" class="js-output" style="height: 1600px;"/>
+      </div>  
+
+      <div class="output" style="width: 960px; height: 450px;">
+          <img src="image.jpg" class="js-output" style="height: 100%; width: auto;"/>
+      </div>   
+      
+      <div class="output">
+          <img src="image.jpg" class="js-output" style="height: 600px;"/>
+      </div> 
+      
+      <div class="output" style="width: 200px; height: 200px;">
+          <!-- for thumb image ensure min height is that of container and max height is larger, 
+          // to allow images of varying aspect ratios to fit entirely inside container -->
+          <img src="image.jpg" class="js-output" style="min-height: 200px; max-height: 300px;"/>
+      </div>  
+      
+      <div class="output" style="width: 1290px; height: 200px;">
+          <img src="image.jpg" class="js-output" style="min-height: 80px; height: auto; width: 100%;"/>
+      </div>    
+      
+      <div class="output" style="width: 100px; height: 100px;">
+          <img src="image.jpg" class="js-output" style="min-height: 100px; max-height: 120px; "/>
+      </div>   
+      
+      <div class="output" style="width: 50px; height: 50px;">
+          <img src="image.jpg" class="js-output" style="min-height: 50px; max-height: 100px;"/>
+      </div>         
+
+      <!-- hacky little no js fallback -->
+      <noscript>
+          <h2>noscript fallback:</h2>
+          <div class="output" style="width: 960px; height: 450px;">
+              <img src="image.jpg" class="js-output" style="height: auto; max-width: 100%;" />
+          </div>
+      </noscript>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        // #DOUG - define image once here for testing
+        //var imgSrc = 'image.jpg';
+        //var imgSrc = 'couple.jfif';
+        //var imgSrc = 'tree.jpg';
+            
+        //blonde lady
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34601/content-1920x0/pws-landscape-almost-square.jpg";
+      
+        //Director General
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34612/content-1920x0/pws-portrait.jpg";
+
+        //The hand
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34532/content-1920x0/pws-portrait-02.jpg";
+      
+        //books
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34537/content-1920x0/pws-focal-point.jpg";
+      
+        //lady and kids
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-1920x0/pws-focal-point-02.jpg";
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-1200x0/pws-focal-point-02.jpg";
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-120x0/pws-focal-point-02.jpg";
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-396x0/pws-focal-point-02.jpg";
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-600x0/pws-focal-point-02.jpg";
+        //var imgSrc = "http://10.25.64.164:8080/o/adaptive-media/image/34543/content-792x0/pws-focal-point-02.jpg";
+      
+
+        //$('.js-output, .uploaded').attr('src', imgSrc)
+
+        var gridSize = 8; //must be a SQUARE grid, eg 10 x 10
+        var gridImg = $('.js-grid'); //the grid image will be placed on top of the uploaded image //#DOUG: make this CSS, not image
+        var uploadImg = $('.uploaded'); //the uploaded image element
+        var imgWidth = uploadImg.width(); //width of the uploaded image
+        var imgHeight = uploadImg.height(); //height of uploaded image
+        var squareWidth = imgWidth / gridSize; //how wide each square is on the grid is determined by image size
+        var squareHeight = imgHeight / gridSize; //how tall each square is on the grid is determined by image size
+        var squareClicked = [gridSize/2, gridSize/2]; //needs global scope for resize event, half gridsize = middle of pic by default
+        var positionX = 0; //px margin that image will be pulled to the LEFT
+        var positionY = 0; //px margin that image will be pulled to the TOP
+        //aspect ratio - I don't think we need this after all, unless we maintain it so resize event doesn't need to recalc margins
+        var aspectRatio = imgWidth / imgHeight; //may need to calc image heights/widths dynamically when stretching banners
+
+        // overlay grid image - squash it to fit the image shape
+        // this is called on doc load and window resize so it always fits image
+        function layGrid() {
+            $('.js-grid').html(''); //clear the grid to start
+    
+            imgWidth = uploadImg.width();
+            imgHeight = uploadImg.height();
+
+            squareWidth = imgWidth / gridSize; //how wide each square is on the grid is determined by image size
+            squareHeight = imgHeight / gridSize;
+          
+            for (var i = 0; i < gridSize; i++) {
+              for (var j = 0; j <gridSize; j++) {
+                $('.js-grid').append("<div style='border-right: 1px solid #000; border-bottom: 1px solid #000; float: left; height:"+(squareHeight-0.1)+"px; width:"+(squareWidth-0.1)+"px;'>&nbsp;</div>"); // deduct part of pixel to ensure grid always smaller than image, even with borders
+              }
+              $('.js-grid').append("<div style='clear: both; '></div>"); //newline
+            }
+
+            $('.js-box').css({'top': 0, 'left': 0, 'opacity': 0}) // reset the box (not the selection)
+        }
+
+
+        //when a square on the grid is clicked, get it's x and y offset within its bounding container
+        //divide it by width of one square to return it as a multiple of grid squares, then
+        //round that value to the nearest integer        
+        function calcSquareClicked(e) {
+            var offset = gridImg.offset();
+            var scrollTop = $(window).scrollTop();
+
+            squareWidth = imgWidth / gridSize; //how wide each square is on the grid is determined by image size
+            squareHeight = imgHeight / gridSize;
+            squareClicked = []; // gotta reset this so values are cleared b4 new values pushed
+            var squaresX = (e.clientX / squareWidth) - offset.left;
+            var squaresXInt = parseInt(squaresX);
+            $('.js-squaresX').html(squaresXInt - 6); //screen output only
+
+            var squaresY = (e.clientY + scrollTop - offset.top) / squareHeight;
+            var squaresYInt = parseInt(squaresY);
+            $('.js-squaresY').html(squaresYInt - 6); //screen output only
+
+            // push x and y square into array
+            squareClicked.push(squaresXInt, squaresYInt);            
+
+            //draw a box the size of one square to show which area was clicked, using value from above calc
+            $('.js-box').css({
+                'height': squareHeight,
+                'width': squareWidth,
+                'top': parseInt(squaresY) * squareHeight,
+                'left': parseInt(squaresX) * squareWidth,
+                'opacity': 0.8
+            });       
+
+            // return the square clicked
+            //return (squareClicked);
+
+        }
+
+        // calculate margins based on wrapping container dimensions
+        function calcMargins() {
+            
+            //var squareClicked = square || squareClicked;
+            //this will need to be set up .foreach, so it works with multiple images at a time
+            $('.js-output').each( function() {
+                var outputContainerWidth = $(this).parent().width();
+                var outputContainerHeight = $(this).parent().height();
+
+                //how many px we have to pull the image
+                var playX = $(this).width() - outputContainerWidth;
+                var playY = $(this).height() - outputContainerHeight;
+                console.log("play is " + playX + "px");
+
+                //how much we move the image is the number of squares as a % of play
+                //For example, if we have a 900px image and a 300px container, the play will be
+                //900px - 300px = 600px play. If the grid has 12 squares, moving it one square
+                //will pull image 1/12 * 600px = 50px. Moving it 12 squares will move it 12/12 * 600px = 600px
+                positionX = (((squareClicked[0]) * (1 / (gridSize-1))) * playX); //parentheses and gridSize-1 are CRITICAL here
+                positionY = (((squareClicked[1]) * (1 / (gridSize-1))) * playY); //i guess this func would be needed every page, squareClicked[] would be server side var 4 each img id
+
+                //prob not needed, just ensures img never goes beyond boundaries
+                if ( positionX > playX ) { positionX = playX; }
+                if ( positionY > playY ) { positionY = playY; }
+
+                //these are basically the values that will need to be calculated and applied to each image on page load & resize
+                $(this).css({
+                    'margin-left': -positionX,
+                    'margin-top': -positionY
+                });
+            });            
+ 
+        }
+
+
+  
+         function previewFile(){
+             var preview = document.querySelector('img'); //selects the query named img
+             var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+             var reader  = new FileReader();
+
+             reader.onloadend = function () {
+                 preview.src = reader.result;
+             }
+
+             if (file) {
+                 reader.readAsDataURL(file); //reads the data as a URL
+             } else {
+                 preview.src = "";
+             }
+
+            //set small delay to ensure images have resized before recalc of margins
+            setTimeout( function() {
+              layGrid();
+              $('.js-output, .uploaded').attr('src', preview.src);
+              calcMargins();
+            } , 250);
+        }
+      
+
+        gridImg.on('click', function(e) {
+
+            //get which square user clicked on
+            var squareClicked = calcSquareClicked(e);
+
+            //then calc margins and apply them
+            calcMargins();
+
+        }); // end onClick      
+      
+
+        previewFile();  //calls the function named previewFile()      
+      
+        //on doc load and window resize, refit the grid and
+        //recalc the margins based on new container width
+        //needs fallback for no-js!?
+        $(window).on("load resize",function(e){
+            layGrid();  
+            setTimeout( function() { //set small delay to ensure images have resized before recalc of margins
+              calcMargins();
+            } , 100);
+        });
+      
+      
+    </script>
+
+
+</body>
+
+</html>
