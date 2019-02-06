@@ -5,14 +5,12 @@
   <meta charset="UTF-8">
   <meta contentType='application/json; charset=utf-8'>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
 </head>
-
 
 <body>
 
-  <h1>Upload image and select the focal point:</h1><br>
-
-  <input type="file" onchange="uploadFile()"><br>
+  <h1>Focal point selector</h1>
 
 
   <div class="image-wrapper">
@@ -21,34 +19,44 @@
     <div class="js-grid grid"></div>
     <div class="js-box grid-box"></div>
   </div>
+  
+  <div class="panel">
+    <h2>Upload image</h2>
+    <input type="file" onchange="uploadFile()" style="height:30px;">
+    <p><small>( Demonstration purposes only )</small></p>
+  </div>
 
-  <h2>Change grid size:</h2>
-  <input value="7" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min=2 max="50" style="height:32px; width: 60px;" />
-  <button for="js-input" onClick="getGridSize()" style="padding:5px 10px;">Update grid</button>
-  <br><br>
+  <div class="panel">
+    <h2>Change grid size</h2>
+    <input type="number" value="7" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min="2" max="50" style="height:30px; width: 60px; text-align: center" />
+    <button for="js-input" onClick="getGridSize()">Update grid</button>
+    <p><small>Enter a value between 2 and 50</small></p>
+  </div>
+  
+  <div class="panel panel__selection">
+    <h2>Save focal point</h2>
+    <p class="js-selected" style="margin-bottom: 16px;"></p>
+    <p>
+      <span class="js-saved">
+        <span style="background: #F8F3D6; color: #836F3A; padding: 6px 12px;">Focal point not yet saved</span>
+      </span>
+    </p>
+    <br><br> 
+    <button onClick="saveImgMargins()" class="submit">Save &amp; Publish</button>
+    
+  </div>  
 
-  <!-- SAVE BTN -->
-  <button onClick="saveImgMargins()" style="padding:15px 20px; background-color: lawngreen;">SAVE &amp; PUBLISH</button>
-  <br><br>
-
-  <!-- redraw btn -->
-  <!--<button onClick="draw()" style="padding:15px 40px; background-color:indianred;">DRAW FROM FILE</button>
-    <br><br>-->
-
-  <p>last square clicked: <span class="test"></span></p>
-  <p>SAVED focal point: <span class="test2"></span></p>
-  <!--<p>drawing from: <span class="test2"></span></p>-->
+  <div style="clear:both;"></div>
 
 
-
-  <h1>Output:</h1><br>
+  <h1>Review output variants</h1>
 
   <!-- various output image sizes - output class should be hidden with no-js -->
   <div class="output-wrapper">
 
     <!-- skyscraper -->
     <div class="output skyscraper">
-      <img src="loading.gif" class="js-output" style="min-height: 100%;" />
+      <img src="loading.gif" class="js-output" />
     </div>
 
     <!-- hero -->
@@ -63,7 +71,7 @@
 
     <!-- leaderboard short -->
     <div class="output leaderboard-short">
-      <img src="loading.gif" class="js-output" style="width: 100%; " />
+      <img src="loading.gif" class="js-output" />
     </div>
 
     <!-- feature -->
@@ -73,7 +81,7 @@
 
     <!-- big rec -->
     <div class="output big-rec">
-      <img src="loading.gif" class="js-output" style="" />
+      <img src="loading.gif" class="js-output" />
     </div>
 
     <!-- m rec -->
@@ -105,17 +113,20 @@
   <script src="jquery-1.12.4.min.js"></script>
   <script>
     
-    // DOUG | image sources for testing
+    // DOUG  image sources for testing only
     var imgSrc = 'image@3x.jpg';
     var imgSrc = 'couple@3x.jpg';
-    //var imgSrc = 'tree.jpg';
-    //var imgSrc = 'hand.jpg';
-    //var imgSrc = 'tree.jpg';            
+    var imgSrc = 'tree.jpg';
+    //var imgSrc = 'students.jpg';
+    //var imgSrc = 'street.jpg';
+    var imgSrc = 'ocean.jpg';
+    var imgSrc = 'mountain.jpg';
+    //var imgSrc = 'teacher.jpg';
     $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
     
     // VARIABLES
-    var gridSize = 7; //must be a SQUARE grid, eg 10 x 10
+    var gridSize = 7; //must be a SQUARE grid, eg 10 = 10x10
     var gridImg = $('.js-grid'); //the grid image will be placed on top of the uploaded image //#DOUG: make this CSS, not image
     var uploadImg = $('.uploaded'); //the uploaded image element
     var imgWidth = uploadImg.width(); //width of the uploaded image
@@ -141,6 +152,7 @@
 
       //make clicked box green
       $('.js-box').css({ 'background-color': '#00ff00' });
+      $('.js-box').html('<span class="tick" style="position: relative; left:'+((squareWidth-6)/2)+'px; top:'+((squareHeight-20)/2)+'px;">&#10004;</span>');
 
       //add new focal points to existing object
       if (imgId.length) {
@@ -156,7 +168,8 @@
       //get saved focal point for image
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
       console.log(obj);
-      $('.test2').html('' + obj[imgId].X + ' , ' + obj[imgId].Y);
+      $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
+      $('.panel__selection').css({'border': '1px green solid'});
 
     } // end saveImgMargins()
 
@@ -179,13 +192,13 @@
       //draw the grid one square at a time
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
-          $('.js-grid').append("<div style='border-right: 1px solid #000; border-bottom: 1px solid #000; float: left; height:" + (squareHeight - 0.1) + "px; width:" + (squareWidth - 0.1) + "px;'>&nbsp;</div>"); // deduct part of pixel to ensure grid always smaller than image, even with borders
+          $('.js-grid').append("<div style='border-right: 1px solid #000; border-bottom: 1px solid #000; float: left; height:" + (squareHeight) + "px; width:" + (squareWidth) + "px;'>&nbsp;</div>"); // deduct part of pixel to ensure grid always smaller than image, even with borders
         }
         $('.js-grid').append("<div style='clear: both; '></div>"); //newline
       }
 
        //reset the box (not the selection)
-      $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
+       $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
 
     } //end layGrid()
 
@@ -195,7 +208,12 @@
     //get gridsize from entered input, then redraw grid
     var getGridSize = function() {
       gridSize = $('.js-input').val();
-      layGrid();
+      if (gridSize <= 50 && gridSize >= 2) {
+        layGrid();
+      }
+      else { 
+        alert('Please enter a value between 2 and 50'); 
+      }
     } //end gridSize()
 
 
@@ -210,7 +228,7 @@
       squareWidth = imgWidth / gridSize; //how wide each square is on the grid is determined by image size
       squareHeight = imgHeight / gridSize;
       squareClicked = []; // gotta reset this so values are cleared b4 new values pushed
-      var squaresX = (e.clientX / squareWidth) - offset.left;
+      var squaresX = (e.clientX - offset.left) / squareWidth ;
       var squaresXInt = parseInt(squaresX);
 
       var squaresY = (e.clientY + scrollTop - offset.top) / squareHeight;
@@ -245,6 +263,15 @@
       $('.js-output').each(function() {
         var outputContainerWidth = $(this).parent().width();
         var outputContainerHeight = $(this).parent().height();
+        
+        //ensure image fills its container correctly, depending on dimensions of both
+        if (outputContainerWidth > outputContainerHeight) {
+          $(this).css({'width': '100%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
+          if ( $(this).height() <= outputContainerHeight ) {
+            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '100%', 'min-width': '100%'});
+          }
+        }
+        else { $(this).css({'height': '100%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
 
         //how many px we have to pull the image
         var playX = $(this).width() - outputContainerWidth;
@@ -285,14 +312,17 @@
       else {
         preview.src = "";
       }
-
+      
+      imgSrc = preview.src;
+      
       //set small delay to ensure images have resized before recalc of margins
       setTimeout(function() {
         layGrid();
         $('.js-output, .uploaded').attr('src', preview.src);
+        imgId = $('.uploaded').attr('src');
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
         calcMargins(obj[imgId]);
-      }, 250);
+      }, 200);
 
     } // end uploadFile()
 
@@ -304,9 +334,11 @@
 
       //color the box they clicked red
       $('.js-box').css({ 'background-color': '#ff0000' });
+      $('.js-box').html('');
 
       //get which square user clicked on
-      calcSquareClicked(e);
+      calcSquareClicked(e);      
+      $('.js-selected').html('Current selection: ' + squareClicked[0] + ' , ' + squareClicked[1]);      
 
       //then calc margins and apply them
       calcMargins();
@@ -316,21 +348,26 @@
 
 
     //on doc load and window resize, refit the grid and recalc the margins based on new container width
-    $(window).on("load resize", function(e) {
-      layGrid();
-
-      if (imgMargins.length) {
+    $(window).on("load resize", function(e) {    
+      
+      //initialise
+      setTimeout(function() {
+        layGrid();
+        calcMargins();
+      }, 200);
+      
+       //if image is already saved, load saved focal point
+      if (imgId.length) {
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
         
         //only calcMargins if the image has a set focal point, otherwise will just default to centre of image
         if (obj.hasOwnProperty(imgId)) {
-          $('.test2').html('' + obj[imgId].X + ' , ' + obj[imgId].Y);
           console.log(obj);
 
           //set small delay to ensure images have resized before recalc of margins
           setTimeout(function() {
             calcMargins(obj[imgId]);
-          }, 100);
+          }, 200);
         }
       }
     });

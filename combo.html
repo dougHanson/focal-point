@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta contentType='application/json; charset=utf-8'>  
   <link rel="stylesheet" type="text/css" href="styles.css" /> 
   <style>
     body { 
@@ -9,6 +11,7 @@
       background: #dadada;
     }
     .output { border: 4px solid #fff; }
+    img { display: none; }
   </style>  
 </head>
 
@@ -22,11 +25,11 @@
     <div class="output skyscraper">
       <img src="tree.jpg" class="js-output" />
     </div> 
-    
+
     <!-- hero -->
     <div class="output hero">
       <img src="couple@3x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
-    </div>    
+    </div>
 
     <!-- leaderboard -->
     <div class="output leaderboard">
@@ -42,7 +45,7 @@
     <div class="output feature">
       <img src="image@3x.jpg" srcset="image.jpg 500w, image@2x.jpg 1000w, image@3x.jpg 2000w" class="js-output" />
     </div>
-    
+
     <!-- big rec -->
     <div class="output big-rec">
       <img class="js-output" 
@@ -55,9 +58,8 @@
     <!-- m rec -->
     <div class="output mrec">
       <img src="couple@3x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
-    </div>    
-
-    
+    </div>
+ 
     <!-- thumbnail -->
     <div class="output thumbnail">
       <img src="couple@2x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
@@ -100,8 +102,8 @@
           squareClicked[0] = 1;   //  |_0_|___|___| 
           squareClicked[1] = 1;   //  |___|_X_|___|
           gridSize = 3;           //  |___|___|_2_|
-        }                         // 
-        
+        }
+
         var outputContainerWidth = $(this).parent().width();
         var outputContainerHeight = $(this).parent().height();
         var playX = $(this).width() - outputContainerWidth;
@@ -114,11 +116,16 @@
 
         $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
       });
+      
+      //once all calcs finished, show images. This removes FOUC
+      setTimeout(function() {
+        $('img').show();
+      }, 200);
     }
 
 
     $(window).on("load resize", function(e) {
-      
+
       //get stored focal points - set to null if nothing defined
       var obj = JSON.parse(localStorage.getItem('imgMargins')) || {};
 
