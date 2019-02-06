@@ -2,7 +2,9 @@
 <html>
 
 <head>
-  <link rel="stylesheet" type="text/css" href="styles.css" /> 
+  <meta charset="UTF-8">
+  <meta contentType='application/json; charset=utf-8'>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 
 
@@ -10,7 +12,7 @@
 
   <h1>Upload image and select the focal point:</h1><br>
 
-  <input type="file" onchange="previewFile()"><br>
+  <input type="file" onchange="uploadFile()"><br>
 
 
   <div class="image-wrapper">
@@ -21,7 +23,7 @@
   </div>
 
   <h2>Change grid size:</h2>
-  <input value="12" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min=2 max="50" style="height:32px; width: 60px;" />
+  <input value="7" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min=2 max="50" style="height:32px; width: 60px;" />
   <button for="js-input" onClick="getGridSize()" style="padding:5px 10px;">Update grid</button>
   <br><br>
 
@@ -48,11 +50,11 @@
     <div class="output skyscraper">
       <img src="loading.gif" class="js-output" style="min-height: 100%;" />
     </div>
-    
+
     <!-- hero -->
     <div class="output hero">
       <img src="loading.gif" class="js-output" />
-    </div>    
+    </div>
 
     <!-- leaderboard -->
     <div class="output leaderboard">
@@ -68,7 +70,7 @@
     <div class="output feature">
       <img src="loading.gif" class="js-output" />
     </div>
-    
+
     <!-- big rec -->
     <div class="output big-rec">
       <img src="loading.gif" class="js-output" style="" />
@@ -77,9 +79,8 @@
     <!-- m rec -->
     <div class="output mrec">
       <img src="loading.gif" class="js-output" />
-    </div>    
+    </div>
 
-    
     <!-- thumbnail -->
     <div class="output thumbnail">
       <img src="loading.gif" class="js-output" />
@@ -88,9 +89,8 @@
     <!-- tiny -->
     <div class="output tiny">
       <img src="loading.gif" class="js-output" style="min-height: 50px; max-height: 100px;" />
-    </div> 
+    </div>
 
-    
     <!-- simple no-js fallback -->
     <noscript>
       <h2>noscript fallback:</h2>
@@ -102,21 +102,20 @@
   </div>
 
 
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
-
+  <script src="jquery-1.12.4.min.js"></script>
   <script>
-
-    // #DOUG - define image once here for testing
-
+    
+    // DOUG | image sources for testing
     var imgSrc = 'image@3x.jpg';
-    //var imgSrc = 'couple@3x.jpg';
-    var imgSrc = 'tree.jpg';
+    var imgSrc = 'couple@3x.jpg';
+    //var imgSrc = 'tree.jpg';
     //var imgSrc = 'hand.jpg';
     //var imgSrc = 'tree.jpg';            
-    $('.js-output, .uploaded').attr('src', imgSrc);
+    $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
-
-    var gridSize = 12; //must be a SQUARE grid, eg 10 x 10
+    
+    // VARIABLES
+    var gridSize = 7; //must be a SQUARE grid, eg 10 x 10
     var gridImg = $('.js-grid'); //the grid image will be placed on top of the uploaded image //#DOUG: make this CSS, not image
     var uploadImg = $('.uploaded'); //the uploaded image element
     var imgWidth = uploadImg.width(); //width of the uploaded image
@@ -126,50 +125,58 @@
     var squareClicked = [gridSize / 2, gridSize / 2]; //needs global scope for resize event, half gridsize = middle of pic by default
     var positionX = 0; //px margin that image will be pulled to the LEFT
     var positionY = 0; //px margin that image will be pulled to the TOP
-    //var aspectRatio = imgWidth / imgHeight; //not needed?
 
-    //object to save focal points in for each image
+    //get unique identifier of each image to use in storage/database
     var imgId = $('.uploaded').attr('src');
-    var imgMargins = {
-        "init": {
-          "X": squareClicked[0],
-          "Y": squareClicked[1]
-        }
-    };    
-
     
-    //  SAVE()
+    //object to save focal points in for each image
+    var imgMargins = JSON.parse(localStorage.getItem('imgMargins')) || {}; //create empty object if doesn't already exist
+    var tmp = {}; //temp object just to satisfy IE
+
+
+
+    //  SAVE ()
     // save image focal point into local storage
     function saveImgMargins() {
+
+      //make clicked box green
       $('.js-box').css({ 'background-color': '#00ff00' });
-      $('.js-box').html('saved');
 
       //add new focal points to existing object
-      if ( imgId.length) {
-        $.extend(imgMargins, { imgId: { "X": squareClicked[0], "Y": squareClicked[1], "grid": gridSize } });
+      if (imgId.length) {
+        tmp[imgId] = {
+          "X": squareClicked[0],
+          "Y": squareClicked[1],
+          "grid": gridSize
+        };
+        $.extend(imgMargins, tmp); // must be done this way to satisfy IE
         localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
       }
-      
+
       //get saved focal point for image
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
       console.log(obj);
       $('.test2').html('' + obj[imgId].X + ' , ' + obj[imgId].Y);
 
-    }
+    } // end saveImgMargins()
 
 
-    //  LAYGRID()
-    // overlay grid image - squash it to fit the image shape
-    // this is called on doc load and window resize so it always fits image
+
+    //  LAYGRID ()
+    //overlay grid image - squash it to fit the image shape
+    //this is called on doc load and window resize so it always fits image
     function layGrid() {
       $('.js-grid').html(''); //clear the grid to start
-
+      
+      //get dimensions of uploaded image
       imgWidth = uploadImg.width();
       imgHeight = uploadImg.height();
-
-      squareWidth = imgWidth / gridSize; //how wide each square is on the grid is determined by image size
+      
+      //how wide/high each square is on the grid is determined by image size
+      squareWidth = imgWidth / gridSize;
       squareHeight = imgHeight / gridSize;
 
+      //draw the grid one square at a time
       for (var i = 0; i < gridSize; i++) {
         for (var j = 0; j < gridSize; j++) {
           $('.js-grid').append("<div style='border-right: 1px solid #000; border-bottom: 1px solid #000; float: left; height:" + (squareHeight - 0.1) + "px; width:" + (squareWidth - 0.1) + "px;'>&nbsp;</div>"); // deduct part of pixel to ensure grid always smaller than image, even with borders
@@ -177,26 +184,25 @@
         $('.js-grid').append("<div style='clear: both; '></div>"); //newline
       }
 
-      $('.js-box').css({
-        'top': 0,
-        'left': 0,
-        'opacity': 0
-      }) // reset the box (not the selection)
-    }
+       //reset the box (not the selection)
+      $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
 
-    
-    //  GETGRIDSIZE()
+    } //end layGrid()
+
+
+
+    //  GETGRIDSIZE ()
     //get gridsize from entered input, then redraw grid
     var getGridSize = function() {
       gridSize = $('.js-input').val();
       layGrid();
-    }
+    } //end gridSize()
 
-    
-    //  CALCSQUARECLICKED()
+
+
+    //  CALCSQUARECLICKED ()
     //when a square on the grid is clicked, get it's x and y offset within its bounding container
-    //divide it by width of one square to return it as a multiple of grid squares, then
-    //round that value to the nearest integer        
+    //divide it by width of one square to return it as a multiple of grid squares, then round that value to the nearest integer        
     function calcSquareClicked(e) {
       var offset = gridImg.offset();
       var scrollTop = $(window).scrollTop();
@@ -222,15 +228,14 @@
         'opacity': 0.66
       });
 
-      //return (squareClicked);
+    } // end calcSquareClicked()
 
-    }
 
-    
-    // CALCMARGINS()
-    // calculate margins based on wrapping container dimensions
+
+    //  CALCMARGINS ()
+    //calculate margins based on wrapping container dimensions
     function calcMargins(focal) {
-      // if we're passing a saved focal point through, use that instead
+      //if we're passing a saved focal point through, use that instead
       if (focal != undefined) {
         squareClicked[0] = focal.X;
         squareClicked[1] = focal.Y;
@@ -246,33 +251,26 @@
         var playY = $(this).height() - outputContainerHeight;
 
         //how much we move the image is the number of squares as a % of play
-        //For example, if we have a 900px image and a 300px container, the play will be
-        //900px - 300px = 600px play. If the grid has 12 squares, moving it one square
-        //will pull image 1/12 * 600px = 50px. Moving it 12 squares will move it 12/12 * 600px = 600px
-        positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX); //parentheses and gridSize-1 are CRITICAL here
-        positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY); //i guess this func would be needed every page, squareClicked[] would be server side var 4 each img id
+        //For example, if we have a 900px image and a 300px container, the play will be 900px - 300px = 600px play. 
+        //If the grid has 12 squares, moving it 3 squares will pull image 3/12 * 600px = 150px.
+        positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
+        positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY); 
 
         //prob not needed, just ensures img never goes beyond boundaries
-        if (positionX > playX) {
-          positionX = playX;
-        }
-        if (positionY > playY) {
-          positionY = playY;
-        }
+        if (positionX > playX) { positionX = playX; }
+        if (positionY > playY) { positionY = playY; }
 
         //these are basically the values that will need to be calculated and applied to each image on page load & resize
-        $(this).css({
-          'margin-left': -positionX,
-          'margin-top': -positionY
-        });
+        $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
       });
 
-    }
+    } // end calcMargins()
 
 
-    //  PREVIEWFILE()
-    // gets file from hdd and uploads into container
-    function previewFile() {
+
+    //  UPLOADFILE ()
+    //gets file from hdd and uploads into container
+    function uploadFile() {
       var preview = document.querySelector('img'); //selects the query named img
       var file = document.querySelector('input[type=file]').files[0]; //sames as here
       var reader = new FileReader();
@@ -283,72 +281,61 @@
 
       if (file) {
         reader.readAsDataURL(file); //reads the data as a URL
-      } else {
+      } 
+      else {
         preview.src = "";
       }
 
-      imgSrc = preview.src;
-      
       //set small delay to ensure images have resized before recalc of margins
       setTimeout(function() {
         layGrid();
         $('.js-output, .uploaded').attr('src', preview.src);
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
         calcMargins(obj[imgId]);
-        // calcMargins();
       }, 250);
-    }
-    
-    
-    //  when a focal point is clicked 
+
+    } // end uploadFile()
+
+
+
+    //  ONCLICK ()
+    //when a focal point is clicked 
     gridImg.on('click', function(e) {
 
-      $('.js-box').css({
-        'background-color': '#ff0000'
-      });
-      $('.js-box').html('unsaved');
+      //color the box they clicked red
+      $('.js-box').css({ 'background-color': '#ff0000' });
 
       //get which square user clicked on
       calcSquareClicked(e);
-      
-      $('.test').html(' ' + squareClicked[0] + ' , ' + squareClicked[1]);
-      
+
       //then calc margins and apply them
       calcMargins();
 
     }); // end onClick
 
 
-    
-    //previewFile();  //calls the function named previewFile()      
 
-  
-    //on doc load and window resize, refit the grid and
-    //recalc the margins based on new container width
-    //needs fallback for no-js!?
+    //on doc load and window resize, refit the grid and recalc the margins based on new container width
     $(window).on("load resize", function(e) {
       layGrid();
-      
+
       if (imgMargins.length) {
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
+        
+        //only calcMargins if the image has a set focal point, otherwise will just default to centre of image
         if (obj.hasOwnProperty(imgId)) {
           $('.test2').html('' + obj[imgId].X + ' , ' + obj[imgId].Y);
-                console.log(obj);
-      
-      setTimeout(function() { //set small delay to ensure images have resized before recalc of margins
-        calcMargins(obj[imgId]);
-        //calcMargins();
-      }, 100);
+          console.log(obj);
+
+          //set small delay to ensure images have resized before recalc of margins
+          setTimeout(function() {
+            calcMargins(obj[imgId]);
+          }, 100);
         }
       }
-      
-
-
-
     });
+
   </script>
 
-
 </body>
-
 </html>

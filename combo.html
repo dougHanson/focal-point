@@ -80,7 +80,7 @@
   </div>
 
 
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+ <script src="jquery-1.12.4.min.js"></script>
   <script>
     var squareClicked = [];
     var gridSize;
@@ -90,17 +90,17 @@
     function calcMargins(focal) {
       $('.js-output').each(function() {       
         imgId = $(this).attr('src');
-        if (focal[imgId] !== undefined) {
+        if (focal[imgId] != undefined) {
           squareClicked[0] = focal[imgId].X;
           squareClicked[1] = focal[imgId].Y;
           gridSize = focal[imgId].grid;
         }
         //default to centre if focal point not set
-        else {
-          squareClicked[0] = 1;   //  _____________ 
-          squareClicked[1] = 1;   //  |_0_|___|___|
-          gridSize = 3;           //  |___|_X_|___|
-        }                         //  |___|___|_2_|
+        else {                    //  _____________
+          squareClicked[0] = 1;   //  |_0_|___|___| 
+          squareClicked[1] = 1;   //  |___|_X_|___|
+          gridSize = 3;           //  |___|___|_2_|
+        }                         // 
         
         var outputContainerWidth = $(this).parent().width();
         var outputContainerHeight = $(this).parent().height();
@@ -118,8 +118,12 @@
 
 
     $(window).on("load resize", function(e) {
-      var obj = JSON.parse(localStorage.getItem('imgMargins'));
-      setTimeout(function() { //set small delay to ensure images have resized before recalc of margins
+      
+      //get stored focal points - set to null if nothing defined
+      var obj = JSON.parse(localStorage.getItem('imgMargins')) || {};
+
+      //set small delay to ensure images have resized before recalc of margins
+      setTimeout(function() {
         calcMargins(obj);
       }, 200);
 
