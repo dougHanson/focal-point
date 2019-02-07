@@ -1,12 +1,9 @@
 $dark_grey: #404040;
+$borders: #bbb;
+$shadows: #666;
 $dark_green: darkgreen;
-$font_family_1: 'Raleway',
-sans-serif;
+$primary_font: 'Raleway', sans-serif;
 
-/* for the demo limit the "uploaded" photo container to 1170px */
-/* uploaded photo fills its container */
-/* overlay this guy atop whatever image is uploaded */
-/* this colours in the square that was clicked */
 * {
   margin: 0;
   padding: 0;
@@ -19,8 +16,9 @@ sans-serif;
 
 body {
   padding: 40px;
-  font-family: $font_family_1;
+  font-family: $primary_font;
   background: #fafafa;
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 p {
@@ -45,13 +43,13 @@ button.submit {
   font-size: 18px;
   color: white;
   background-color: $dark_grey;
-  border: 1px solid #404040;
-  box-shadow: 0px 0px 0px #555;
+  border: 1px solid $dark_grey;
+  box-shadow: 0px 0px 0px $shadows;
 
   &:hover {
     color: $dark_grey;
     background-color: white;
-    box-shadow: 0px 0px 10px #555;
+    box-shadow: 0px 0px 10px $shadows;
     cursor: hand;
     cursor: pointer;
   }
@@ -59,7 +57,7 @@ button.submit {
   &:active {
     color: $dark_grey;
     background-color: white;
-    box-shadow: 0px 0px 2px #555;
+    box-shadow: 0px 0px 2px $shadows;
   }
 }
 
@@ -70,9 +68,10 @@ button.submit {
 
 }
 
+/* uploaded photo fills its container */
 .uploaded {
   width: 100%;
-  border-left: 1px solid #000;
+  border-left: 1px solid black;
 }
 
 .panel {
@@ -81,25 +80,27 @@ button.submit {
   float: left;
   background: white;
   margin-bottom: 4px;
-  border: 1px solid #bbb;
+  border: 1px solid $borders;
 }
 
 .panel__selection {
   margin-bottom: 40px;
 }
 
+/* overlay this guy atop whatever image is uploaded */
 .grid {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
-  border-top: 1px solid #000;
+  border-top: 1px solid black;
 }
 
+/* this colours in the square that was clicked */
 .grid-box {
   background: #1078b2;
-  border-bottom: 1px solid #000;
-  border-right: 1px solid #000;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
   position: absolute;
   top: 0;
   left: 0;
@@ -112,7 +113,7 @@ button.submit {
   overflow: hidden;
   width: 100%;
   height: 400px;
-  border: 2px solid #000;
+  border: 2px solid black;
   margin: 10px 0;
   position: relative;
   float: left;
@@ -196,10 +197,10 @@ button.submit {
       width: 50%;
       top: 80%;
       max-width: 300px;
-      background: #777;
-      -webkit-box-shadow: 0 15px 10px #777;
-      -moz-box-shadow: 0 15px 10px #777;
-      box-shadow: 0 15px 10px #777;
+      background: $shadows;
+      -webkit-box-shadow: 0 15px 10px $shadows;
+      -moz-box-shadow: 0 15px 10px $shadows;
+      box-shadow: 0 15px 10px $shadows;
       -webkit-transform: rotate(-3deg);
       -moz-transform: rotate(-3deg);
       -o-transform: rotate(-3deg);
@@ -216,10 +217,10 @@ button.submit {
       width: 50%;
       top: 80%;
       max-width: 300px;
-      background: #777;
-      -webkit-box-shadow: 0 15px 10px #777;
-      -moz-box-shadow: 0 15px 10px #777;
-      box-shadow: 0 15px 10px #777;
+      background: $shadows;
+      -webkit-box-shadow: 0 15px 10px $shadows;
+      -moz-box-shadow: 0 15px 10px $shadows;
+      box-shadow: 0 15px 10px $shadows;
       -webkit-transform: rotate(-3deg);
       -moz-transform: rotate(-3deg);
       -o-transform: rotate(-3deg);
@@ -239,17 +240,17 @@ button.submit {
     width: 25%;
     padding: 25px 30px;
     float: left;
-    background: #fff;
+    background: white;
     margin-left: 40px;
     margin-bottom: 20px;
-    border: 1px solid #bbb;
+    border: 1px solid $borders;
   }
 
   .output {
     width: 350px;
     margin: 5px;
   }
-
+  
   .skyscraper {
     width: 320px;
     height: 1040px;

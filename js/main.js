@@ -5,10 +5,10 @@
     //var imgSrc = 'img/students.jpg';
     //var imgSrc = 'img/couple@3x.jpg';
     //var imgSrc = 'img/tree.jpg';    
-    var imgSrc = 'img/street.jpg';
-    var imgSrc = 'img/ocean.jpg';
+    //var imgSrc = 'img/street.jpg';
+    //var imgSrc = 'img/ocean.jpg';
     var imgSrc = 'img/mountain.jpg';
-    var imgSrc = 'img/hills.jpg';
+    //var imgSrc = 'img/hills.jpg';
     
     $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
@@ -152,6 +152,8 @@
         var outputContainerHeight = $(this).parent().height();
         
         //ensure image fills its container correctly, depending on dimensions of both
+        //ideally, these styles will be defined within css of the theme - this is merely for the output testing
+        //DOUG : tie this zoom to gridSize??
         if (outputContainerWidth > outputContainerHeight) {
           $(this).css({'width': '120%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
           if ( $(this).height() <= outputContainerHeight ) {

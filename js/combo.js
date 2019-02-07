@@ -6,7 +6,8 @@
     function calcMargins(focal) {
       $('.js-output').each(function() {       
         imgId = $(this).attr('src');
-        if (focal[imgId] != undefined) {
+        
+        if (!$.isEmptyObject(focal)) {
           squareClicked[0] = focal[imgId].X;
           squareClicked[1] = focal[imgId].Y;
           gridSize = focal[imgId].grid;
@@ -25,16 +26,31 @@
         var positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
         var positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY);
 
+        
+        //ensure image fills its container correctly, depending on dimensions of both
+        //ideally, these styles will be defined within css of the theme - this is merely for the output testing
+        //DOUG : tie this zoom to gridSize??
+        if (outputContainerWidth > outputContainerHeight) {
+          $(this).css({'width': '120%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
+          if ( $(this).height() <= outputContainerHeight ) {
+            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '120%', 'min-width': '100%'});
+          }
+        }
+        else { $(this).css({'height': '120%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
+        
+        
         if (positionX > playX) { positionX = playX; }
         if (positionY > playY) { positionY = playY; }
 
-        $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
+       setTimeout(function() {
+         $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
+         $('img').css({'opacity': 1});
+       }, 200);
+        
       });
       
       //once all calcs finished, show images. This removes FOUC
-      setTimeout(function() {
-        $('img').show();
-      }, 200);
+
     }
 
 
