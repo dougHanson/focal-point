@@ -101,7 +101,7 @@
       else { 
         alert('Please enter a value between 2 and 50'); 
       }
-    } //end gridSize()
+    }; //end gridSize()
 
 
 
@@ -153,12 +153,12 @@
         
         //ensure image fills its container correctly, depending on dimensions of both
         if (outputContainerWidth > outputContainerHeight) {
-          $(this).css({'width': '100%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
+          $(this).css({'width': '120%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
           if ( $(this).height() <= outputContainerHeight ) {
-            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '100%', 'min-width': '100%'});
+            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '120%', 'min-width': '100%'});
           }
         }
-        else { $(this).css({'height': '100%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
+        else { $(this).css({'height': '120%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
 
         //how many px we have to pull the image
         var playX = $(this).width() - outputContainerWidth;
@@ -191,7 +191,7 @@
 
       reader.onloadend = function() {
         preview.src = reader.result;
-      }
+      };
 
       if (file) {
         reader.readAsDataURL(file); //reads the data as a URL

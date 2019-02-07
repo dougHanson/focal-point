@@ -20,6 +20,7 @@ gulp.task('lint-js', function() {
     .pipe(jshint.reporter('default'));
 });
 
+
 // Compile Sass
 gulp.task('compile-sass', function() {
   return gulp.src('./css/**/*.scss')
@@ -28,24 +29,26 @@ gulp.task('compile-sass', function() {
     .pipe(gulp.dest('./dist/css'));  // compile sass to dist folder
 });
 
+
 // Minify CSS (concatenate, auto-prefix and minify)
-gulp.task('minify-css', ['compile-sass'], function() {
+gulp.task('minify-css', gulp.series('compile-sass', function() {
   gulp.src(['./dist/css/**/*.css'])
     .pipe(concat('styles.min.css'))
     .pipe(autoprefix('last 2 versions'))
     .pipe(minifyCSS())
     .pipe(gulp.dest('./dist/css'));
-});
+}));
+
 
 // Minify JS (concatenate and minify)
 gulp.task('minify-js', function() {
   return gulp.src('./js/**/*.js')
-    .pipe(concat('scripts.js'))
+    .pipe(concat('main.js'))
     .pipe(gulp.dest('./dist/js'))
-    .pipe(rename('scripts.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./dist/js'));
 });
+ 
 
 // Compress new images
 gulp.task('compress-images', function() {
@@ -56,20 +59,13 @@ gulp.task('compress-images', function() {
 });
 
 
-
 // Watch Files For Changes
-gulp.task('watch', ['compile-sass'], function() {
-  gulp.watch(['js/**/*.js', '!js/plugins/**/*.js'], ['lint-js', 'minify-js']);
-	//gulp.watch('svg/**/*.svg', ['svgSprite']);	
-  gulp.watch('css/**/*.scss', ['compile-sass']);
-});
-
+gulp.task('watch', gulp.series('compile-sass', function() {
+  gulp.watch(['js/**/*.js', '!js/plugins/**/*.js'], gulp.series('lint-js', 'minify-js'));
+  gulp.watch('css/**/*.scss', gulp.series('compile-sass'));
+}));
 
 
 // Default Task
-gulp.task('default', ['watch']);
-gulp.task('publish', ['minify-css', 'minify-js', 'compress-images']);
-
-
-// gulp watch | gulp svgicons, compile-sass, then favicons (prior to dist so they are compressed), then distribution to test in staging, then minify-html for live version
-// what if i make favicons a dependency of compress-images??
+gulp.task('default', gulp.series('watch'));
+gulp.task('publish', gulp.series('minify-css', 'minify-js', 'compress-images'));

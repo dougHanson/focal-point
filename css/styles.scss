@@ -1,3 +1,8 @@
+$dark_grey: #404040;
+$dark_green: darkgreen;
+$font_family_1: 'Raleway',
+sans-serif;
+
 /* for the demo limit the "uploaded" photo container to 1170px */
 /* uploaded photo fills its container */
 /* overlay this guy atop whatever image is uploaded */
@@ -9,52 +14,66 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
-  transition: 100ms all; }
+  transition: 100ms all;
+}
 
 body {
   padding: 40px;
-  font-family: "Raleway", sans-serif;
-  background: #fafafa; }
+  font-family: $font_family_1;
+  background: #fafafa;
+}
 
 p {
-  margin-top: 16px; }
+  margin-top: 16px;
+}
 
 h1 {
   font-size: 42px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+}
 
 h2 {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+}
 
 button {
-  padding: 5px 10px; }
+  padding: 5px 10px;
+}
 
 button.submit {
   padding: 10px;
   font-size: 18px;
   color: white;
-  background-color: #404040;
+  background-color: $dark_grey;
   border: 1px solid #404040;
-  box-shadow: 0px 0px 0px #555; }
-  button.submit:hover {
-    color: #404040;
+  box-shadow: 0px 0px 0px #555;
+
+  &:hover {
+    color: $dark_grey;
     background-color: white;
     box-shadow: 0px 0px 10px #555;
     cursor: hand;
-    cursor: pointer; }
-  button.submit:active {
-    color: #404040;
+    cursor: pointer;
+  }
+
+  &:active {
+    color: $dark_grey;
     background-color: white;
-    box-shadow: 0px 0px 2px #555; }
+    box-shadow: 0px 0px 2px #555;
+  }
+}
 
 .image-wrapper {
   width: 100%;
   margin-bottom: 20px;
-  position: relative; }
+  position: relative;
+
+}
 
 .uploaded {
   width: 100%;
-  border-left: 1px solid #000; }
+  border-left: 1px solid #000;
+}
 
 .panel {
   width: 100%;
@@ -62,17 +81,20 @@ button.submit {
   float: left;
   background: white;
   margin-bottom: 4px;
-  border: 1px solid #bbb; }
+  border: 1px solid #bbb;
+}
 
 .panel__selection {
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+}
 
 .grid {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
-  border-top: 1px solid #000; }
+  border-top: 1px solid #000;
+}
 
 .grid-box {
   background: #1078b2;
@@ -83,7 +105,8 @@ button.submit {
   left: 0;
   height: 0;
   width: 0;
-  z-index: 10; }
+  z-index: 10;
+}
 
 .output {
   overflow: hidden;
@@ -92,60 +115,79 @@ button.submit {
   border: 2px solid #000;
   margin: 10px 0;
   position: relative;
-  float: left; }
+  float: left;
+}
 
 .leaderboard {
   width: 100%;
-  height: 150px; }
+  height: 150px;
+}
 
 .leaderboard-short {
   width: 100%;
-  height: 100px; }
+  height: 100px;
+}
 
 .feature {
   width: 100%;
-  height: 350px; }
+  height: 350px;
+}
 
 .big-rec {
-  height: 200px; }
+  height: 200px;
+}
 
 .mrec {
   width: 300px;
   max-width: 50%;
-  height: 260px; }
-  .mrec img {
+  height: 260px;
+
+  img {
     height: 300% !important;
-    width: auto !important; }
+    width: auto !important;
+  }
+}
 
 .thumbnail {
   width: 100px;
-  height: 100px; }
-  .thumbnail img {
-    height: 600% !important; }
+  height: 100px;
+
+  img {
+    height: 600% !important;
+  }
+}
 
 .tiny {
   width: 50px;
-  height: 50px; }
-  .tiny img {
-    height: 800% !important; }
+  height: 50px;
+
+  img {
+    height: 800% !important;
+  }
+}
 
 .hero {
   max-width: 100%;
-  height: 400px; }
+  height: 400px;
+}
 
 .tick {
-  display: none; }
+  display: none;
+}
 
 @media (min-width: 1170px) {
   .tick {
     display: block;
-    color: darkgreen; }
+    color: $dark_green;
+  }
+
   .image-wrapper {
     width: 70%;
     float: left;
     margin-bottom: 60px;
-    position: relative; }
-    .image-wrapper:before {
+    position: relative;
+
+    &:before {
       z-index: -1;
       position: absolute;
       content: "";
@@ -162,8 +204,10 @@ button.submit {
       -moz-transform: rotate(-3deg);
       -o-transform: rotate(-3deg);
       -ms-transform: rotate(-3deg);
-      transform: rotate(-3deg); }
-    .image-wrapper:after {
+      transform: rotate(-3deg);
+    }
+
+    &:after {
       z-index: -1;
       position: absolute;
       content: "";
@@ -187,7 +231,10 @@ button.submit {
       -ms-transform: rotate(3deg);
       transform: rotate(3deg);
       right: 10px;
-      left: auto; }
+      left: auto;
+    }
+  }
+
   .panel {
     width: 25%;
     padding: 25px 30px;
@@ -195,35 +242,60 @@ button.submit {
     background: #fff;
     margin-left: 40px;
     margin-bottom: 20px;
-    border: 1px solid #bbb; }
+    border: 1px solid #bbb;
+  }
+
   .output {
     width: 350px;
-    margin: 5px; }
+    margin: 5px;
+  }
+
   .skyscraper {
     width: 320px;
-    height: 1040px; }
-    .skyscraper img {
-      max-width: none !important; }
+    height: 1040px;
+
+    img {
+      max-width: none !important;
+    }
+  }
+
   .leaderboard {
     width: 800px;
-    height: 150px; }
+    height: 150px;
+  }
+
   .leaderboard-short {
     width: 600px;
-    height: 150px; }
+    height: 150px;
+  }
+
   .feature {
     width: 800px;
-    height: 450px; }
+    height: 450px;
+  }
+
   .big-rec {
-    height: 450px; }
+    height: 450px;
+  }
+
   .mrec {
     width: 300px;
-    height: 260px; }
+    height: 260px;
+  }
+
   .thumbnail {
     width: 100px;
-    height: 100px; }
+    height: 100px;
+
+  }
+
   .tiny {
     width: 50px;
-    height: 50px; }
+    height: 50px;
+  }
+
   .hero {
     width: 1470px;
-    height: 400px; } }
+    height: 400px;
+  }
+}
