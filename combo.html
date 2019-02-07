@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta contentType='application/json; charset=utf-8'>  
-  <link rel="stylesheet" type="text/css" href="styles.css" /> 
+  <link rel="stylesheet" type="text/css" href="css/styles.css" /> 
   <style>
     body { 
       background-image: linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%);
@@ -23,51 +23,51 @@
 
     <!-- skyscraper -->
     <div class="output skyscraper">
-      <img src="tree.jpg" class="js-output" />
+      <img src="img/tree.jpg" class="js-output" />
     </div> 
 
     <!-- hero -->
     <div class="output hero">
-      <img src="couple@3x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
+      <img src="img/couple@3x.jpg" srcset="img/couple.jpg 400w, img/couple@2x.jpg 800w, img/couple@3x.jpg 1600w" class="js-output" />
     </div>
 
     <!-- leaderboard -->
     <div class="output leaderboard">
-      <img src="image@3x.jpg" srcset="image.jpg 500w, image@2x.jpg 1000w, image@3x.jpg 2000w" class="js-output" />
+      <img src="img/image@3x.jpg" srcset="img/image.jpg 500w, img/image@2x.jpg 1000w, img/image@3x.jpg 2000w" class="js-output" />
     </div>
 
     <!-- leaderboard short -->
     <div class="output leaderboard-short">
-      <img src="hand.jpg" class="js-output" style="width: 100%; " />
+      <img src="img/hand.jpg" class="js-output" style="width: 100%; " />
     </div>
 
     <!-- feature -->
     <div class="output feature">
-      <img src="image@3x.jpg" srcset="image.jpg 500w, image@2x.jpg 1000w, image@3x.jpg 2000w" class="js-output" />
+      <img src="img/image@3x.jpg" srcset="img/image.jpg 500w, img/image@2x.jpg 1000w, img/image@3x.jpg 2000w" class="js-output" />
     </div>
 
     <!-- big rec -->
     <div class="output big-rec">
       <img class="js-output" 
-           src="image@3x.jpg" 
-           srcset="image.jpg 500w, 
-                   image@2x.jpg 1000w, 
-                   image@3x.jpg 2000w" />
+           src="img/image@3x.jpg" 
+           srcset="img/image.jpg 500w, 
+                   img/image@2x.jpg 1000w, 
+                   img/image@3x.jpg 2000w" />
     </div>
 
     <!-- m rec -->
     <div class="output mrec">
-      <img src="couple@3x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
+      <img src="img/couple@3x.jpg" srcset="img/couple.jpg 400w, img/couple@2x.jpg 800w, img/couple@3x.jpg 1600w" class="js-output" />
     </div>
  
     <!-- thumbnail -->
     <div class="output thumbnail">
-      <img src="couple@2x.jpg" srcset="couple.jpg 400w, couple@2x.jpg 800w, couple@3x.jpg 1600w" class="js-output" />
+      <img src="img/couple@2x.jpg" srcset="img/couple.jpg 400w, img/couple@2x.jpg 800w, img/couple@3x.jpg 1600w" class="js-output" />
     </div>
 
     <!-- tiny -->
     <div class="output tiny">
-      <img src="image@3x.jpg" srcset="image.jpg 500w, image@2x.jpg 1000w, image@3x.jpg 2000w" class="js-output" style="min-height: 50px; max-height: 100px;" />
+      <img src="img/image@3x.jpg" srcset="img/image.jpg 500w, img/image@2x.jpg 1000w, img/image@3x.jpg 2000w" class="js-output" style="min-height: 50px; max-height: 100px;" />
     </div> 
 
 
@@ -75,68 +75,15 @@
     <noscript>
       <h2>noscript fallback:</h2>
       <div class="output" style="width: 960px; height: 450px;">
-        <img src="image.jpg" class="js-output" style="height: auto; max-width: 100%;" />
+        <img src="img/image.jpg" class="js-output" style="height: auto; max-width: 100%;" />
       </div>
     </noscript>
 
   </div>
 
 
- <script src="jquery-1.12.4.min.js"></script>
-  <script>
-    var squareClicked = [];
-    var gridSize;
-    var imgId;
-
-    // CALCMARGINS()
-    function calcMargins(focal) {
-      $('.js-output').each(function() {       
-        imgId = $(this).attr('src');
-        if (focal[imgId] != undefined) {
-          squareClicked[0] = focal[imgId].X;
-          squareClicked[1] = focal[imgId].Y;
-          gridSize = focal[imgId].grid;
-        }
-        //default to centre if focal point not set
-        else {                    //  _____________
-          squareClicked[0] = 1;   //  |_0_|___|___| 
-          squareClicked[1] = 1;   //  |___|_X_|___|
-          gridSize = 3;           //  |___|___|_2_|
-        }
-
-        var outputContainerWidth = $(this).parent().width();
-        var outputContainerHeight = $(this).parent().height();
-        var playX = $(this).width() - outputContainerWidth;
-        var playY = $(this).height() - outputContainerHeight;
-        var positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
-        var positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY);
-
-        if (positionX > playX) { positionX = playX; }
-        if (positionY > playY) { positionY = playY; }
-
-        $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
-      });
-      
-      //once all calcs finished, show images. This removes FOUC
-      setTimeout(function() {
-        $('img').show();
-      }, 200);
-    }
-
-
-    $(window).on("load resize", function(e) {
-
-      //get stored focal points - set to null if nothing defined
-      var obj = JSON.parse(localStorage.getItem('imgMargins')) || {};
-
-      //set small delay to ensure images have resized before recalc of margins
-      setTimeout(function() {
-        calcMargins(obj);
-      }, 200);
-
-      console.log(obj);
-    });
-  </script>
+ <script src="js/jquery-1.12.4.min.js"></script>
+  <script src="js/combo.js"></script>
 
 
 </body>
