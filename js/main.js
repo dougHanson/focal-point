@@ -187,7 +187,7 @@
     //  UPLOADFILE ()
     //gets file from hdd and uploads into container
     function uploadFile() {
-      var preview = document.querySelector('img'); //selects the query named img
+      var preview = document.querySelector('.uploaded'); //selects the query
       var file = document.querySelector('input[type=file]').files[0]; //sames as here
       var reader = new FileReader();
 
@@ -201,9 +201,7 @@
       else {
         preview.src = "";
       }
-      
-      imgSrc = preview.src;
-      
+       
       //set small delay to ensure images have resized before recalc of margins
       setTimeout(function() {
         layGrid();
