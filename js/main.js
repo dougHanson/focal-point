@@ -1,13 +1,13 @@
    
     // DOUG  image sources for testing only
-    //var imgSrc = 'img/image@3x.jpg';
+    var imgSrc = 'img/image@3x.jpg';
     //var imgSrc = 'img/teacher.jpg';
     //var imgSrc = 'img/students.jpg';
-    //var imgSrc = 'img/couple@3x.jpg';
+    var imgSrc = 'img/couple@3x.jpg';
     //var imgSrc = 'img/tree.jpg';    
     //var imgSrc = 'img/street.jpg';
     //var imgSrc = 'img/ocean.jpg';
-    var imgSrc = 'img/mountain.jpg';
+    //var imgSrc = 'img/mountain.jpg';
     //var imgSrc = 'img/hills.jpg';
     
     $('.js-output, .uploaded').attr('src', imgSrc); // set images

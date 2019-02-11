@@ -7,7 +7,8 @@
       $('.js-output').each(function() {       
         imgId = $(this).attr('src');
         
-        if (!$.isEmptyObject(focal)) {
+        //if (!$.isEmptyObject(focal)) {
+        if (focal[imgId] != undefined) {
           squareClicked[0] = focal[imgId].X;
           squareClicked[1] = focal[imgId].Y;
           gridSize = focal[imgId].grid;
@@ -31,9 +32,9 @@
         //ideally, these styles will be defined within css of the theme - this is merely for the output testing
         //DOUG : tie this zoom to gridSize??
         if (outputContainerWidth > outputContainerHeight) {
-          $(this).css({'width': '120%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
+          $(this).css({'min-height': '100%', 'height': 'auto', 'min-width': '100%'});
           if ( $(this).height() <= outputContainerHeight ) {
-            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '120%', 'min-width': '100%'});
+            $(this).css({'width': 'auto', 'min-height': 'auto', 'min-width': '100%'});
           }
         }
         else { $(this).css({'height': '120%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
@@ -41,9 +42,10 @@
         
         if (positionX > playX) { positionX = playX; }
         if (positionY > playY) { positionY = playY; }
+        
+       $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
 
        setTimeout(function() {
-         $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
          $('img').css({'opacity': 1});
        }, 200);
         
