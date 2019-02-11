@@ -32,22 +32,39 @@
     var imgMargins = JSON.parse(localStorage.getItem('imgMargins')) || {}; //create empty object if doesn't already exist
     var tmp = {}; //temp object just to satisfy IE
 
+var test = {};
+
+    var variant = {};
+    var variantName;
+    var isVariant = false;
 
 
     //  SAVE ()
     // save image focal point into local storage
     function saveImgMargins() {
+      
 
       //make clicked box green
       $('.js-box').css({ 'background-color': '#00ff00' });
       $('.js-box').html('<span class="tick" style="position: relative; left:'+((squareWidth-6)/2)+'px; top:'+((squareHeight-20)/2)+'px;">&#10004;</span>');
 
+      if (isVariant) {
+        alert('saving '+variantName);
+        test[variantName] = { 
+          "X": squareClicked[0],
+          "Y": squareClicked[1],
+          "grid": gridSize  
+        };
+        $.extend(variant, test);
+      }
+      
       //add new focal points to existing object
       if (imgId.length) {
         tmp[imgId] = {
           "X": squareClicked[0],
           "Y": squareClicked[1],
-          "grid": gridSize
+          "grid": gridSize,
+          "variants": variant
         };
         $.extend(imgMargins, tmp); // must be done this way to satisfy IE
         localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
@@ -136,20 +153,25 @@
     } // end calcSquareClicked()
 
 
-
     //  CALCMARGINS ()
     //calculate margins based on wrapping container dimensions
     function calcMargins(focal) {
       //if we're passing a saved focal point through, use that instead
       if (focal != undefined) {
         squareClicked[0] = focal.X;
-        squareClicked[1] = focal.Y;
+        squareClicked[1] = focal.Y;        
       }
 
       //for each output image, get the container height and width and calc margins
       $('.js-output').each(function() {
         var outputContainerWidth = $(this).parent().width();
         var outputContainerHeight = $(this).parent().height();
+        
+        var containerClass = $(this).parent().attr('class');
+        //if (focal.variant) {
+         // alert(imgId);
+        //}
+
         
         //ensure image fills its container correctly, depending on dimensions of both
         //ideally, these styles will be defined within css of the theme - this is merely for the output testing
@@ -230,7 +252,19 @@
       //then calc margins and apply them
       calcMargins();
 
-    }); // end onClick
+    }); // end onClick | grid
+
+    //when a variant is clicked 
+    $('.output').on('click', function(e) {
+
+      variantName =  $(this).attr('class').replace('output ','');
+      $('body, html').animate({scrollTop: 0}, 200);
+      $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
+      isVariant = true;
+      //variant.push(variantName);
+
+    }); // end onClick | variant
+
 
 
 
@@ -248,13 +282,13 @@
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
         
         //only calcMargins if the image has a set focal point, otherwise will just default to centre of image
-        if (obj.hasOwnProperty(imgId)) {
+       // if (obj[imgId].length && obj.hasOwnProperty(imgId)) {
           console.log(obj);
 
           //set small delay to ensure images have resized before recalc of margins
           setTimeout(function() {
             calcMargins(obj[imgId]);
           }, 200);
-        }
+        //}
       }
     });
