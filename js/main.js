@@ -34,7 +34,7 @@
 
 var test = {};
 
-    var variant = {};
+    //var variant = {};  //dont do this
     var variantName;
     var isVariant = false;
 
@@ -49,30 +49,45 @@ var test = {};
       $('.js-box').html('<span class="tick" style="position: relative; left:'+((squareWidth-6)/2)+'px; top:'+((squareHeight-20)/2)+'px;">&#10004;</span>');
 
       if (isVariant) {
-        alert('saving '+variantName);
         test[variantName] = { 
           "X": squareClicked[0],
           "Y": squareClicked[1],
           "grid": gridSize  
         };
-        $.extend(variant, test);
+        //$.extend(variant, test);
+        
+        //if (imgId.length) {
+        if (imgId.length) {
+          tmp[imgId] = {
+            "X": tmp[imgId].X,
+            "Y": tmp[imgId].Y,
+            "grid":  tmp[imgId].grid,
+            "variants": test
+          };
+          $.extend(imgMargins, tmp); // must be done this way to satisfy IE
+          localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
+        }        
       }
       
-      //add new focal points to existing object
-      if (imgId.length) {
-        tmp[imgId] = {
-          "X": squareClicked[0],
-          "Y": squareClicked[1],
-          "grid": gridSize,
-          "variants": variant
-        };
-        $.extend(imgMargins, tmp); // must be done this way to satisfy IE
-        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
+      else {
+        //add new focal points to existing object
+        if (imgId.length) {
+          tmp[imgId] = {
+            "X": squareClicked[0],
+            "Y": squareClicked[1],
+            "grid": gridSize,
+            "variants": tmp[imgId].variants
+          };
+          $.extend(imgMargins, tmp); // must be done this way to satisfy IE
+          localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
+        }
       }
 
       //get saved focal point for image
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
       console.log(obj);
+      // console.log(variant);
+      
       $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
 
     } // end saveImgMargins()
@@ -284,6 +299,7 @@ var test = {};
         //only calcMargins if the image has a set focal point, otherwise will just default to centre of image
        // if (obj[imgId].length && obj.hasOwnProperty(imgId)) {
           console.log(obj);
+        //console.log(variant);
 
           //set small delay to ensure images have resized before recalc of margins
           setTimeout(function() {
