@@ -8,7 +8,7 @@
     //var imgSrc = 'img/street.jpg';
     //var imgSrc = 'img/ocean.jpg';
     //var imgSrc = 'img/mountain.jpg';
-    //var imgSrc = 'img/hills.jpg';
+    var imgSrc = 'img/hills.jpg';
     
     $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
@@ -30,54 +30,69 @@
     
     //object to save focal points in for each image
     var imgMargins = JSON.parse(localStorage.getItem('imgMargins')) || {}; //create empty object if doesn't already exist
+    //var imgMarginsVariants = JSON.parse(localStorage.getItem('imgMarginsVariants')) || {}; //create empty object if doesn't already exist
     var tmp = {}; //temp object just to satisfy IE
-
-var test = {};
-
-    //var variant = {};  //dont do this
     var variantName;
     var isVariant = false;
+    var varTmp = {};
+    var variant = {};
+
+    if (!$.isEmptyObject(imgMargins)) {
+      variant = imgMargins[imgId].variants;
+    }
 
 
     //  SAVE ()
     // save image focal point into local storage
     function saveImgMargins() {
-      
 
       //make clicked box green
       $('.js-box').css({ 'background-color': '#00ff00' });
       $('.js-box').html('<span class="tick" style="position: relative; left:'+((squareWidth-6)/2)+'px; top:'+((squareHeight-20)/2)+'px;">&#10004;</span>');
 
       if (isVariant) {
-        test[variantName] = { 
+        varTmp[variantName] = { 
           "X": squareClicked[0],
           "Y": squareClicked[1],
-          "grid": gridSize  
+          "grid": gridSize 
         };
-        //$.extend(variant, test);
         
-        //if (imgId.length) {
-        if (imgId.length) {
-          tmp[imgId] = {
-            "X": tmp[imgId].X,
-            "Y": tmp[imgId].Y,
-            "grid":  tmp[imgId].grid,
-            "variants": test
-          };
-          $.extend(imgMargins, tmp); // must be done this way to satisfy IE
-          localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
-        }        
-      }
+        $.extend(variant, varTmp);
+
+        tmp[imgId] = {
+          "X": imgMargins[imgId].X,
+          "Y": imgMargins[imgId].Y,
+          "grid": imgMargins[imgId].Y,
+          "variants": variant
+        };        
+        
+        $.extend(imgMargins, tmp); // must be done this way to satisfy IE
+        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
       
+      }
+
       else {
         //add new focal points to existing object
-        if (imgId.length) {
-          tmp[imgId] = {
-            "X": squareClicked[0],
-            "Y": squareClicked[1],
-            "grid": gridSize,
-            "variants": tmp[imgId].variants
-          };
+        if (imgId.length) {  
+  
+          if ( (imgMargins[imgId]) != undefined) {
+            tmp[imgId] = {
+              "X": squareClicked[0],
+              "Y": squareClicked[1],
+              "grid": gridSize,
+              "variants": variant
+            };
+          }
+          
+          else {
+            tmp[imgId] = {
+              "X": squareClicked[0],
+              "Y": squareClicked[1],
+              "grid": gridSize,
+              "variants": {}
+            };
+          }
+
           $.extend(imgMargins, tmp); // must be done this way to satisfy IE
           localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
         }
@@ -85,9 +100,11 @@ var test = {};
 
       //get saved focal point for image
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
+
       console.log(obj);
-      // console.log(variant);
-      
+
+      calcMargins(obj[imgId]);
+
       $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
 
     } // end saveImgMargins()
@@ -162,7 +179,7 @@ var test = {};
         'width': squareWidth,
         'top': parseInt(squaresY) * squareHeight,
         'left': parseInt(squaresX) * squareWidth,
-        'opacity': 0.66
+        'opacity': 0.5
       });
 
     } // end calcSquareClicked()
@@ -174,7 +191,7 @@ var test = {};
       //if we're passing a saved focal point through, use that instead
       if (focal != undefined) {
         squareClicked[0] = focal.X;
-        squareClicked[1] = focal.Y;        
+        squareClicked[1] = focal.Y;  
       }
 
       //for each output image, get the container height and width and calc margins
@@ -183,21 +200,39 @@ var test = {};
         var outputContainerHeight = $(this).parent().height();
         
         var containerClass = $(this).parent().attr('class');
-        //if (focal.variant) {
-         // alert(imgId);
-        //}
-
+        containerClass = containerClass.replace('output ','');
+        
         
         //ensure image fills its container correctly, depending on dimensions of both
         //ideally, these styles will be defined within css of the theme - this is merely for the output testing
         //DOUG : tie this zoom to gridSize??
+        
         if (outputContainerWidth > outputContainerHeight) {
-          $(this).css({'width': '120%', 'min-height': '100%', 'height': 'auto', 'min-width': 'auto'});
+          $(this).css({
+            'width': '120%', 
+            'min-height': '100%', 
+            'height': 'auto', 
+            'min-width': 'auto'
+          });
+          
           if ( $(this).height() <= outputContainerHeight ) {
-            $(this).css({'width': 'auto', 'min-height': 'auto', 'height': '120%', 'min-width': '100%'});
+            $(this).css({
+              'height': '120%', 
+              'width': 'auto', 
+              'min-height': 'auto', 
+              'min-width': '100%'
+            });
           }
+
         }
-        else { $(this).css({'height': '120%', 'min-width': '100%', 'width': 'auto', 'min-height': 'auto'}); }
+        else { 
+          $(this).css({
+            'height': '120%', 
+            'min-width': '100%', 
+            'width': 'auto', 
+            'min-height': 'auto'
+          }); 
+        }        
 
         //how many px we have to pull the image
         var playX = $(this).width() - outputContainerWidth;
@@ -212,9 +247,19 @@ var test = {};
         //prob not needed, just ensures img never goes beyond boundaries
         if (positionX > playX) { positionX = playX; }
         if (positionY > playY) { positionY = playY; }
+        
+        
+        if (focal != undefined && focal.variants.hasOwnProperty(containerClass)) {
+            positionX = (((focal.variants[containerClass].X) * (1 / (gridSize - 1))) * playX);
+            positionY = (((focal.variants[containerClass].Y) * (1 / (gridSize - 1))) * playY); 
+        }        
 
         //these are basically the values that will need to be calculated and applied to each image on page load & resize
         $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
+        
+
+                
+        
       });
 
     } // end calcMargins()
@@ -295,11 +340,11 @@ var test = {};
        //if image is already saved, load saved focal point
       if (imgId.length) {
         var obj = JSON.parse(localStorage.getItem('imgMargins'));
+        var vars = JSON.parse(localStorage.getItem('imgMarginsVariants'));
         
         //only calcMargins if the image has a set focal point, otherwise will just default to centre of image
        // if (obj[imgId].length && obj.hasOwnProperty(imgId)) {
-          console.log(obj);
-        //console.log(variant);
+        console.log(obj);
 
           //set small delay to ensure images have resized before recalc of margins
           setTimeout(function() {
