@@ -25,24 +25,36 @@ h2 {
 
 button {
   padding: 5px 10px; }
+  button.submit {
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #404040;
+    border: 1px solid #404040;
+    box-shadow: 0px 0px 0px #666; }
+    button.submit:hover {
+      color: #404040;
+      background-color: white;
+      box-shadow: 0px 0px 10px #666;
+      cursor: hand;
+      cursor: pointer; }
+    button.submit:active {
+      color: #404040;
+      background-color: white;
+      box-shadow: 0px 0px 2px #666; }
+  button.reset {
+    float: left;
+    display: block;
+    text-align: center;
+    height: 45px;
+    margin: 0 5%; }
 
-button.submit {
-  padding: 10px;
-  font-size: 18px;
-  color: white;
-  background-color: #404040;
-  border: 1px solid #404040;
-  box-shadow: 0px 0px 0px #666; }
-  button.submit:hover {
-    color: #404040;
-    background-color: white;
-    box-shadow: 0px 0px 10px #666;
-    cursor: hand;
-    cursor: pointer; }
-  button.submit:active {
-    color: #404040;
-    background-color: white;
-    box-shadow: 0px 0px 2px #666; }
+input {
+  height: 30px; }
+
+.logo {
+  height: 36px;
+  margin-right: 20px; }
 
 .image-wrapper {
   width: 100%;
@@ -61,10 +73,17 @@ button.submit {
   background: white;
   margin-bottom: 4px;
   border: 1px solid #bbb; }
-
-.panel__selection {
-  margin-bottom: 40px;
-  position: relative; }
+  .panel__selection {
+    position: relative; }
+  @media (min-width: 1170px) {
+    .panel {
+      width: 28%;
+      padding: 25px 30px;
+      float: left;
+      background: white;
+      margin-left: 2%;
+      margin-bottom: 20px;
+      border: 1px solid #bbb; } }
 
 /* overlay this guy atop whatever image is uploaded */
 .grid {
@@ -86,116 +105,14 @@ button.submit {
   width: 0;
   z-index: 10; }
 
-.output {
-  overflow: hidden;
-  width: 100%;
-  height: 400px;
-  border: 4px solid black;
-  margin: 10px 0;
-  position: relative;
-  float: left; }
-  .output:hover {
-    border: 4px solid #1078b2;
-    cursor: hand;
-    cursor: pointer; }
-
-.leaderboard {
-  width: 100%;
-  height: 150px; }
-
-.leaderboard-short {
-  width: 100%;
-  height: 100px; }
-
-.feature {
-  width: 100%;
-  height: 350px; }
-
-.big-rec {
-  height: 200px; }
-
-.mrec {
-  width: 300px;
-  max-width: 50%;
-  height: 260px; }
-  .mrec img {
-    height: 300% !important;
-    width: auto !important; }
-
-.thumbnail {
-  width: 100px;
-  height: 100px; }
-  .thumbnail img {
-    height: 600% !important; }
-
-.tiny {
-  width: 50px;
-  height: 50px; }
-  .tiny img {
-    height: 800% !important; }
-
-.hero {
-  max-width: 100%;
-  height: 400px; }
-
 .tick {
   display: none; }
-
-/* ribbon */
-.ribbon {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  position: absolute;
-  display: none; }
-
-.ribbon::before,
-.ribbon::after {
-  position: absolute;
-  z-index: -1;
-  content: '';
-  display: block;
-  border: 5px solid #1078b2; }
-
-.ribbon span {
-  position: absolute;
-  display: block;
-  width: 225px;
-  padding: 15px 0;
-  background-color: #3498db;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  color: #fff;
-  font: "Raleway", sans-serif;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  text-align: center; }
-
-/* top right*/
-.ribbon-top-right {
-  top: -10px;
-  right: -10px; }
-
-.ribbon-top-right::before,
-.ribbon-top-right::after {
-  border-top-color: transparent;
-  border-right-color: transparent; }
-
-.ribbon-top-right::before {
-  top: 0;
-  left: 0; }
-
-.ribbon-top-right::after {
-  bottom: 0;
-  right: 0; }
-
-.ribbon-top-right span {
-  left: -25px;
-  top: 30px;
-  transform: rotate(45deg); }
+  @media (min-width: 1170px) {
+    .tick {
+      display: block;
+      color: darkgreen; } }
 
 @media (min-width: 1170px) {
-  .tick {
-    display: block;
-    color: darkgreen; }
   .image-wrapper {
     width: 70%;
     float: left;
@@ -243,46 +160,90 @@ button.submit {
       -ms-transform: rotate(3deg);
       transform: rotate(3deg);
       right: 10px;
-      left: auto; }
-  .panel {
-    width: 25%;
-    padding: 25px 30px;
-    float: left;
-    background: white;
-    margin-left: 40px;
-    margin-bottom: 20px;
-    border: 1px solid #bbb; }
-  .output {
-    width: 350px;
-    margin: 5px; }
-  .skyscraper {
-    width: 320px;
-    height: 1040px; }
-    .skyscraper img {
-      max-width: none !important; }
-  .leaderboard {
-    width: 800px;
-    height: 150px; }
-  .leaderboard-short {
-    width: 600px;
-    height: 150px; }
-  .feature {
-    width: 800px;
-    height: 450px; }
-  .big-rec {
-    height: 450px; }
-  .mrec {
-    width: 300px;
-    height: 260px; }
-  .thumbnail {
-    width: 100px;
-    height: 100px; }
-  .tiny {
-    width: 50px;
-    height: 50px; }
-  .hero {
-    width: 1470px;
-    height: 400px; } }
+      left: auto; } }
+
+.output {
+  overflow: hidden;
+  max-width: 100%;
+  height: 400px;
+  border: 4px solid black;
+  margin: 10px 0;
+  position: relative;
+  float: left; }
+  .output:hover {
+    border: 4px solid #1078b2;
+    cursor: hand;
+    cursor: pointer; }
+  @media (min-width: 1170px) {
+    .output {
+      width: 350px;
+      margin: 5px; } }
+
+/* ribbon */
+.ribbon {
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  position: absolute;
+  display: none; }
+
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid #1078b2; }
+
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font: "Raleway", sans-serif;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  text-align: center; }
+
+.ribbon-top-right {
+  top: -10px;
+  right: -10px; }
+
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent; }
+
+.ribbon-top-right::before {
+  top: 0;
+  left: 0; }
+
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0; }
+
+.ribbon-top-right span {
+  left: -42px;
+  top: 13px;
+  transform: rotate(45deg); }
+
+/* messages */
+.msg-yellow {
+  background: #F8F3D6;
+  color: #836F3A;
+  padding: 6px 12px; }
+
+.msg-green {
+  background: #DEF2D6;
+  color: darkgreen;
+  padding: 6px 12px; }
+
+.msg-blue {
+  background: #D9EDF7;
+  color: #1078b2;
+  padding: 6px 12px; }
 
 /* official variants */
 .id4 {
@@ -401,18 +362,25 @@ button.submit {
   width: 560px;
   height: 560px; }
 
-/*div#masonry { 
-  display: flex; 
-  flex-direction: row; 
-  flex-wrap: wrap;
-  font-size: 0;  
-}*/
-/*div#masonry:hover img { opacity: 0.3; }
-div#masonry:hover img:hover { opacity: 1; } */
-/* fallback for earlier versions of Firefox */
-@supports not (flex-wrap: wrap) {
-  div#masonry {
-    display: block; }
-  div#masonry img {
-    display: inline-block;
-    vertical-align: top; } }
+/* bounce animation */
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0); }
+  40% {
+    -webkit-transform: translateY(-30px); }
+  60% {
+    -webkit-transform: translateY(-20px); } }
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0); }
+  40% {
+    transform: translateY(-30px); }
+  60% {
+    transform: translateY(-20px); } }
+
+.bounce {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: bounce;
+  animation-name: bounce; }

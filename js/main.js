@@ -2,10 +2,10 @@
     // DOUG  image sources for testing only
     var imgSrc = 'img/image@3x.jpg';
     //var imgSrc = 'img/teacher.jpg';
-    //var imgSrc = 'img/students.jpg';
+    var imgSrc = 'img/students.jpg';
     //var imgSrc = 'img/couple@3x.jpg';
     //var imgSrc = 'img/tree.jpg';    
-    //var imgSrc = 'img/street.jpg';
+    var imgSrc = 'img/street.jpg';
     //var imgSrc = 'img/ocean.jpg';
     //var imgSrc = 'img/mountain.jpg';
     //var imgSrc = 'img/hills.jpg';
@@ -38,9 +38,10 @@
     if ((imgMargins[imgId]) != undefined) {
       variant = imgMargins[imgId].variants;
     }
-    //temp objects just to satisfy IE
+    //temp objects approach just to satisfy IE
     var tmp = {}; 
     var varTmp = {};
+
 
 
     //  SAVE ()
@@ -51,6 +52,7 @@
       $('.js-box').css({ 'background-color': '#00ff00' });
       $('.js-box').html('<span class="tick" style="position: relative; left:'+((squareWidth-6)/2)+'px; top:'+((squareHeight-20)/2)+'px;">&#10004;</span>');
 
+      //if selecting for a variant, extend the Variant object then extend imgMargins object
       if (isVariant) {
         varTmp[variantName] = { 
           "X": squareClicked[0],
@@ -71,11 +73,11 @@
         localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
       
       }
-
+      
+     //if selecting common focal point, add new focal points to existing object but keep variants intact
       else {
-        //add new focal points to existing object
+
         if (imgId.length) {  
-  
           if ( (imgMargins[imgId]) != undefined) {
             tmp[imgId] = {
               "X": squareClicked[0],
@@ -101,23 +103,42 @@
 
       //get saved focal point for image
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
-
       console.log(obj);
-
+  
       calcMargins(obj[imgId]);
 
       // show either the general focal point, or the variant focal point
       if (isVariant) {
-         $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + '</span>');
+         $('.js-saved').html('<span class="msg-green">&#10004; Saved focal point:  ' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + '</span>');
       }
       else {
-        $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
+        $('.js-saved').html('<span class="msg-green">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
       }
       
-       
+      //restore all variants to full opacity
+      $('.output').css({'opacity': 1});
       
 
     } // end saveImgMargins()
+
+
+
+    //  RESETALL ()
+    // removes all stored focal points for this image, and 
+    function resetAll() {
+      if (confirm("Reset ALL variants for this image?")) {
+        imgMargins[imgId].variants = {};
+        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
+        alert('Variants reset for this image');
+        $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
+        $('.js-box, .js-saved').html('');
+        
+        calcMargins();
+      } 
+      else {
+        return false;
+      }
+    } // end resetAll()
 
 
 
@@ -199,7 +220,7 @@
     //calculate margins based on wrapping container dimensions
     function calcMargins(focal) {
       //if we're passing a saved focal point through, use that instead
-      if (focal != undefined) {
+      if (focal != undefined && !isVariant) {
         squareClicked[0] = focal.X;
         squareClicked[1] = focal.Y;  
       }
@@ -305,27 +326,10 @@
     } // end uploadFile()
 
 
-    //  RESETALL ()
-    // removes all stored focal points for this image, and 
-
-    function resetAll() {
-      if (confirm("Are you sure you want to reset ALL variants?")) {
-        imgMargins[imgId].variants = {};
-        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
-        alert('Variants reset');
-        calcMargins();
-        
-      } 
-      else {
-        return false;
-      }
-    }
-
 
     //  ONCLICK ()
-    //when a focal point is clicked 
+    //when a focal point is clicked colour the grid square and update output
     gridImg.on('click', function(e) {
-
       //color the box they clicked red
       $('.js-box').css({ 'background-color': '#ff0000' });
       $('.js-box').html('');
@@ -336,27 +340,34 @@
 
       //then calc margins and apply them
       calcMargins();
-
     }); // end onClick | grid
 
-    //when a variant is clicked 
-    $('.output').on('click', function(e) {
 
+    //when a variant is clicked change UI to offer affordance
+    $('.output').on('click', function(e) {
+      
+      $('.output').css({'opacity': 0.3});
+      $(this).css({'opacity': 1});
+      
+      isVariant = true;
       variantName =  $(this).attr('class').replace('output ','');
+      
       $('body, html').animate({scrollTop: 0}, 200);
       $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
-      $('.js-variantName').html('variant ' + variantName.replace('id',''));
-      $('.ribbon').show();
-      //reset the box (not the selection)
+      $('.js-variantName').html('variant ' + variantName.replace('bounce',''));
+      $('.ribbon, .js-imgRefresh').show();
       $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
-       //$('.js-saved').html('<span style="background: #F8F3D6; color: #836F3A; padding: 6px 12px;">Focal point not yet saved</span>');
-      $('.js-saved').html('');
-      isVariant = true;
-      
-      //$('.panel__selection').css({'background': '#E7F2F7'})
-
+      $('.js-saved').html('<span class="msg-yellow">Focal point not yet saved</span>');
+      $('.js-whichFocal').html('<span class="msg-blue">variant</span>');
     }); // end onClick | variant
 
+
+    //when variant name in ribbon is clicked, scroll to variant and make it pop
+    $('.js-variantName').on('click', function(e) {      
+      var offset = $('.'+variantName).offset().top;
+      $('body, html').animate({scrollTop: offset - 100}, 200);
+      $('.'+variantName).addClass('bounce');      
+    }); // end onClick | variantName in ribbon
 
 
 

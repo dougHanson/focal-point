@@ -2,6 +2,7 @@ $dark_grey: #404040;
 $borders: #bbb;
 $shadows: #666;
 $dark_green: darkgreen;
+$primary_blue: #1078b2;
 $primary_font: 'Raleway', sans-serif;
 
 * {
@@ -36,29 +37,46 @@ h2 {
 
 button {
   padding: 5px 10px;
+
+  &.submit {
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: $dark_grey;
+    border: 1px solid $dark_grey;
+    box-shadow: 0px 0px 0px $shadows;
+
+    &:hover {
+      color: $dark_grey;
+      background-color: white;
+      box-shadow: 0px 0px 10px $shadows;
+      cursor: hand;
+      cursor: pointer;
+    }
+
+    &:active {
+      color: $dark_grey;
+      background-color: white;
+      box-shadow: 0px 0px 2px $shadows;
+    }
+  }
+
+  &.reset {
+    float: left;
+    display: block;
+    text-align: center;
+    height: 45px;
+    margin: 0 5%;
+  }
 }
 
-button.submit {
-  padding: 10px;
-  font-size: 18px;
-  color: white;
-  background-color: $dark_grey;
-  border: 1px solid $dark_grey;
-  box-shadow: 0px 0px 0px $shadows;
+input {
+  height: 30px;
+}
 
-  &:hover {
-    color: $dark_grey;
-    background-color: white;
-    box-shadow: 0px 0px 10px $shadows;
-    cursor: hand;
-    cursor: pointer;
-  }
-
-  &:active {
-    color: $dark_grey;
-    background-color: white;
-    box-shadow: 0px 0px 2px $shadows;
-  }
+.logo {
+  height: 36px;
+  margin-right: 20px;
 }
 
 .image-wrapper {
@@ -81,11 +99,21 @@ button.submit {
   background: white;
   margin-bottom: 4px;
   border: 1px solid $borders;
-}
 
-.panel__selection {
-  margin-bottom: 40px;
-  position: relative;
+  &__selection {
+    position: relative;
+  }
+
+  @media (min-width: 1170px) {
+    width: 28%;
+    padding: 25px 30px;
+    float: left;
+    background: white;
+    margin-left: 2%;
+    margin-bottom: 20px;
+    border: 1px solid $borders;
+  }
+
 }
 
 /* overlay this guy atop whatever image is uploaded */
@@ -99,7 +127,7 @@ button.submit {
 
 /* this colours in the square that was clicked */
 .grid-box {
-  background: #1078b2;
+  background: $primary_blue;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   position: absolute;
@@ -110,147 +138,17 @@ button.submit {
   z-index: 10;
 }
 
-.output {
-  overflow: hidden;
-  width: 100%;
-  height: 400px;
-  border: 4px solid black;
-  margin: 10px 0;
-  position: relative;
-  float: left;
-  
-  &:hover {
-    border: 4px solid #1078b2;
-    cursor: hand; cursor: pointer;
-  }
-}
-
-.leaderboard {
-  width: 100%;
-  height: 150px;
-}
-
-.leaderboard-short {
-  width: 100%;
-  height: 100px;
-}
-
-.feature {
-  width: 100%;
-  height: 350px;
-}
-
-.big-rec {
-  height: 200px;
-}
-
-.mrec {
-  width: 300px;
-  max-width: 50%;
-  height: 260px;
-
-  img {
-    height: 300% !important;
-    width: auto !important;
-  }
-}
-
-.thumbnail {
-  width: 100px;
-  height: 100px;
-
-  img {
-    height: 600% !important;
-  }
-}
-
-.tiny {
-  width: 50px;
-  height: 50px;
-
-  img {
-    height: 800% !important;
-  }
-}
-
-.hero {
-  max-width: 100%;
-  height: 400px;
-}
-
 .tick {
   display: none;
-}
 
-
-
-
-
-
-/* ribbon */
-.ribbon {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  position: absolute;
-  display: none;
-}
-.ribbon::before,
-.ribbon::after {
-  position: absolute;
-  z-index: -1;
-  content: '';
-  display: block;
-  border: 5px solid #1078b2;
-}
-.ribbon span {
-  position: absolute;
-  display: block;
-  width: 225px;
-  padding: 15px 0;
-  background-color: #3498db;
-  box-shadow: 0 5px 10px rgba(0,0,0,.1);
-  color: #fff;
-  font: $primary_font;
-  text-shadow: 0 1px 1px rgba(0,0,0,.2);
-  text-align: center;
-}
-
-
-/* top right*/
-.ribbon-top-right {
-  top: -10px;
-  right: -10px;
-}
-.ribbon-top-right::before,
-.ribbon-top-right::after {
-  border-top-color: transparent;
-  border-right-color: transparent;
-}
-.ribbon-top-right::before {
-  top: 0;
-  left: 0;
-}
-.ribbon-top-right::after {
-  bottom: 0;
-  right: 0;
-}
-.ribbon-top-right span {
-  left: -25px;
-  top: 30px;
-  transform: rotate(45deg);
-}
-
-
-
-
-@media (min-width: 1170px) {
-  .tick {
+  @media (min-width: 1170px) {
     display: block;
     color: $dark_green;
   }
+}
 
-  .image-wrapper {
+.image-wrapper {
+  @media (min-width: 1170px) {
     width: 70%;
     float: left;
     margin-bottom: 60px;
@@ -303,209 +201,275 @@ button.submit {
       left: auto;
     }
   }
+}
 
-  .panel {
-    width: 25%;
-    padding: 25px 30px;
-    float: left;
-    background: white;
-    margin-left: 40px;
-    margin-bottom: 20px;
-    border: 1px solid $borders;
+.output {
+  overflow: hidden;
+  max-width: 100%;
+  height: 400px;
+  border: 4px solid black;
+  margin: 10px 0;
+  position: relative;
+  float: left;
+
+  &:hover {
+    border: 4px solid $primary_blue;
+    cursor: hand;
+    cursor: pointer;
   }
 
-  .output {
+  @media (min-width: 1170px) {
     width: 350px;
     margin: 5px;
   }
-  
-  .skyscraper {
-    width: 320px;
-    height: 1040px;
 
-    img {
-      max-width: none !important;
-    }
-  }
+}
 
-  .leaderboard {
-    width: 800px;
-    height: 150px;
-  }
 
-  .leaderboard-short {
-    width: 600px;
-    height: 150px;
-  }
 
-  .feature {
-    width: 800px;
-    height: 450px;
-  }
+/* ribbon */
+.ribbon {
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
 
-  .big-rec {
-    height: 450px;
-  }
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid $primary_blue;
+}
 
-  .mrec {
-    width: 300px;
-    height: 260px;
-  }
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+  color: #fff;
+  font: $primary_font;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  text-align: center;
+}
 
-  .thumbnail {
-    width: 100px;
-    height: 100px;
+.ribbon-top-right {
+  top: -10px;
+  right: -10px;
+}
 
-  }
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
 
-  .tiny {
-    width: 50px;
-    height: 50px;
-  }
+.ribbon-top-right::before {
+  top: 0;
+  left: 0;
+}
 
-  .hero {
-    width: 1470px;
-    height: 400px;
-  }
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0;
+}
+
+.ribbon-top-right span {
+  left: -42px;
+  top: 13px;
+  transform: rotate(45deg);
+}
+
+
+
+/* messages */
+.msg-yellow {
+  background: #F8F3D6;
+  color: #836F3A;
+  padding: 6px 12px;
+}
+
+.msg-green {
+  background: #DEF2D6;
+  color: $dark_green;
+  padding: 6px 12px;
+}
+
+.msg-blue {
+  background: #D9EDF7;
+  color: $primary_blue;
+  padding: 6px 12px;
 }
 
 
 
 /* official variants */
-
-.id4 { 
-    width: 195px;
-    height: 280px
-}
-.id4 { 
-    width: 140px;
-    height: 200px
-}
-.id8 { 
-    width: 1680px;
-    height: 670px
-}
-.id9 { 
-    width: 770px;
-    height: 310px
-}
-.id10 { 
-    width: 320px;
-    height: 130px
-}
-.id11 { 
-    width: 420px;
-    height: 290px
-}
-.id12 { 
-    width: 280px;
-    height: 195px
-}
-.id13 { 
-    width: 100px;
-    height: 100px
-}
-.id14 { 
-    width: 840px;
-    height: 840px
-}
-.id15 { 
-    width: 385px;
-    height: 385px
-}
-.id16 { 
-    width: 770px;
-    height: 255px
-}
-.id18 { 
-    width: 1680px;
-    height: 510px
-}
-.id19 { 
-    width: 1680px;
-    height: 480px
-}
-.id20 { 
-    width: 770px;
-    height: 385px
-}
-.id22 { 
-    width: 1680px;
-    height: 260px
-}
-.id23 { 
-    width: 770px;
-    height: 220px
-}
-.id24 { 
-    width: 320px;
-    height: 160px
-}
-.id25 { 
-    width: 970px;
-    height: 485px
-}
-.id27 { 
-    width: 280px;
-    height: 280px
-}
-.R2 { 
-    width: 540px;
-    height: 770px
-}
-.R4 { 
-    width: 390px;
-    height: 560px
-}
-.R5 { 
-    width: 280px;
-    height: 400px
-}
-.R11 { 
-    width: 840px;
-    height: 580px
-}
-.R12 { 
-    width: 560px;
-    height: 390px
-}
-.R14 { 
-    width: 1680px;
-    height: 1680px
-}
-.R16 { 
-    width: 1540px;
-    height: 510px
-}
-.R20 { 
-    width: 1540px;
-    height: 770px
-}
-.R25 { 
-    width: 1940px;
-    height: 970px
-}
-.R27 { 
-    width: 560px;
-    height: 560px
+.id4 {
+  width: 195px;
+  height: 280px
 }
 
-/*div#masonry { 
-  display: flex; 
-  flex-direction: row; 
-  flex-wrap: wrap;
-  font-size: 0;  
-}*/
+.id4 {
+  width: 140px;
+  height: 200px
+}
+
+.id8 {
+  width: 1680px;
+  height: 670px
+}
+
+.id9 {
+  width: 770px;
+  height: 310px
+}
+
+.id10 {
+  width: 320px;
+  height: 130px
+}
+
+.id11 {
+  width: 420px;
+  height: 290px
+}
+
+.id12 {
+  width: 280px;
+  height: 195px
+}
+
+.id13 {
+  width: 100px;
+  height: 100px
+}
+
+.id14 {
+  width: 840px;
+  height: 840px
+}
+
+.id15 {
+  width: 385px;
+  height: 385px
+}
+
+.id16 {
+  width: 770px;
+  height: 255px
+}
+
+.id18 {
+  width: 1680px;
+  height: 510px
+}
+
+.id19 {
+  width: 1680px;
+  height: 480px
+}
+
+.id20 {
+  width: 770px;
+  height: 385px
+}
+
+.id22 {
+  width: 1680px;
+  height: 260px
+}
+
+.id23 {
+  width: 770px;
+  height: 220px
+}
+
+.id24 {
+  width: 320px;
+  height: 160px
+}
+
+.id25 {
+  width: 970px;
+  height: 485px
+}
+
+.id27 {
+  width: 280px;
+  height: 280px
+}
+
+.R2 {
+  width: 540px;
+  height: 770px
+}
+
+.R4 {
+  width: 390px;
+  height: 560px
+}
+
+.R5 {
+  width: 280px;
+  height: 400px
+}
+
+.R11 {
+  width: 840px;
+  height: 580px
+}
+
+.R12 {
+  width: 560px;
+  height: 390px
+}
+
+.R14 {
+  width: 1680px;
+  height: 1680px
+}
+
+.R16 {
+  width: 1540px;
+  height: 510px
+}
+
+.R20 {
+  width: 1540px;
+  height: 770px
+}
+
+.R25 {
+  width: 1940px;
+  height: 970px
+}
+
+.R27 {
+  width: 560px;
+  height: 560px
+}
 
 
-/*div#masonry:hover img { opacity: 0.3; }
-div#masonry:hover img:hover { opacity: 1; } */
+/* bounce animation */
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
+  40% {-webkit-transform: translateY(-30px) }
+  60% {-webkit-transform: translateY(-20px);}
+} 
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-30px);}
+  60% {transform: translateY(-20px);}
+} 
 
-/* fallback for earlier versions of Firefox */
-@supports not (flex-wrap: wrap) {
-  div#masonry { display: block; }
-  div#masonry img {  
-  display: inline-block;
-  vertical-align: top;
-  }
+.bounce {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
 }

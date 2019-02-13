@@ -10,10 +10,9 @@
 
 <body>
 
-  <h1><img src="img/logo.png" style="height: 36px; margin-right: 20px;" />Focal point selector</h1>
+  <h1><img src="img/logo.png" class="logo" />Focal point selector</h1>
 
   <div class="image-wrapper">
-    <!--<img src="image.jpg" class="uploaded" id="128397" />-->
     <img src="img/loading.gif" class="uploaded" />
     <div class="js-grid grid"></div>
     <div class="js-box grid-box"></div>
@@ -21,34 +20,35 @@
 
   <div class="panel">
     <h2>Upload image</h2>
-    <input type="file" onchange="uploadFile()" style="height:30px;">
+    <input type="file" onchange="uploadFile()">
     <p><small>( Demonstration purposes only )</small></p>
   </div>
 
-  <div class="panel">
+<!--  <div class="panel">
     <h2>Change grid size</h2>
-    <input type="number" value="15" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min="2" max="50" style="height:30px; width: 60px; text-align: center" />
+    <input type="number" value="15" class="js-input" id="js-input" onChange="getGridSize()" maxlength="2" min="2" max="50" style="width: 60px; text-align: center" />
     <button for="js-input" onClick="getGridSize()">Update grid</button>
     <p><small>Enter a value between 2 and 50</small></p>
-  </div>
+  </div>-->
 
   <div class="panel panel__selection">
-    <div class="ribbon ribbon-top-right"><span class="js-variantName">variant</span></div>
-    <h2>Save focal point</h2>
-
-    <!--<div style="background: #1078b2; color: white; padding: 15px; margin: 10px 0 20px; display: none; width: 100%;" class="js-variantMsg"></div>-->
+    <div class="ribbon ribbon-top-right"><span class="js-variantName" style="cursor: pointer;" title="click to review this variant">variant</span></div>
+    <h2>Save <span class="js-whichFocal"><span class="msg-green">common</span></span> focal point</h2>
 
     <p class="js-selected" style="margin-bottom: 16px;"></p>
     <p>
       <span class="js-saved">
-        <span style="background: #F8F3D6; color: #836F3A; padding: 6px 12px;">Focal point not yet saved</span>
+        <span class="msg-yellow">Focal point not yet saved</span>
       </span>
     </p>
     <br><br>
     <button onClick="saveImgMargins()" class="submit" style="width:50%; float: left;">Save &amp; Publish</button>
-    <button onClick="resetAll()" class="reset" style="float: left; display: block; text-align: center; height: 45px; margin: 0 10%;">Reset variants</button>
+    <button onClick="resetAll()" class="reset">Reset variants</button>
+  
+    <a href=""><img src="img/refresh.svg" height="40px" style="display: none; float: left; margin: 0;" class="js-imgRefresh" title="Back to common focal point" /></a>
 
   </div>
+
 
   <div style="clear:both;"></div>
 
@@ -56,65 +56,15 @@
   <h1>Review output variants</h1>
 
   <!-- various output image sizes - output class should be hidden with no-js -->
-  <div class="output-wrapper" id="masonry">
+  <div class="output-wrapper">
 
-
-    <div style="display: none;">
-      <!-- skyscraper -->
-      <div class="output skyscraper">
-        <img src="img/loading.gif" class="js-output" />
+    <!-- simple no-js fallback -->
+    <noscript>
+      <h2>noscript fallback:</h2>
+      <div class="output" style="width: 960px; height: 450px;">
+        <img src="img/image.jpg" class="js-output" style="height: auto; max-width: 100%;" />
       </div>
-
-      <!-- hero -->
-      <div class="output hero">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- leaderboard -->
-      <div class="output leaderboard">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- leaderboard short -->
-      <div class="output leaderboard-short">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- feature -->
-      <div class="output feature">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- big rec -->
-      <div class="output big-rec">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- m rec -->
-      <div class="output mrec">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- thumbnail -->
-      <div class="output thumbnail">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- tiny -->
-      <div class="output tiny">
-        <img src="img/loading.gif" class="js-output" />
-      </div>
-
-      <!-- simple no-js fallback -->
-      <noscript>
-        <h2>noscript fallback:</h2>
-        <div class="output" style="width: 960px; height: 450px;">
-          <img src="img/image.jpg" class="js-output" style="height: auto; max-width: 100%;" />
-        </div>
-      </noscript>
-    </div>
-
-
+    </noscript>
 
     <!-- 5 -->
     <div class="output id5">
@@ -261,9 +211,8 @@
       <img src="img/loading.gif" class="js-output" />
     </div>
 
-
   </div>
-
+  
 
   <script src="js/plugins/jquery-1.12.4.min.js"></script>
   <script src="js/main.js"></script>
