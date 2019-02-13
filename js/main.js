@@ -3,18 +3,18 @@
     var imgSrc = 'img/image@3x.jpg';
     //var imgSrc = 'img/teacher.jpg';
     //var imgSrc = 'img/students.jpg';
-    var imgSrc = 'img/couple@3x.jpg';
+    //var imgSrc = 'img/couple@3x.jpg';
     //var imgSrc = 'img/tree.jpg';    
     //var imgSrc = 'img/street.jpg';
     //var imgSrc = 'img/ocean.jpg';
     //var imgSrc = 'img/mountain.jpg';
-    var imgSrc = 'img/hills.jpg';
+    //var imgSrc = 'img/hills.jpg';
     
     $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
     
     // VARIABLES
-    var gridSize = 7; //must be a SQUARE grid, eg 10 = 10x10
+    var gridSize = 15; //must be a SQUARE grid, eg 10 = 10x10
     var gridImg = $('.js-grid'); //the grid image will be placed on top of the uploaded image //#DOUG: make this CSS, not image
     var uploadImg = $('.uploaded'); //the uploaded image element
     var imgWidth = uploadImg.width(); //width of the uploaded image
@@ -30,16 +30,17 @@
     
     //object to save focal points in for each image
     var imgMargins = JSON.parse(localStorage.getItem('imgMargins')) || {}; //create empty object if doesn't already exist
-    //var imgMarginsVariants = JSON.parse(localStorage.getItem('imgMarginsVariants')) || {}; //create empty object if doesn't already exist
-    var tmp = {}; //temp object just to satisfy IE
+
     var variantName;
     var isVariant = false;
-    var varTmp = {};
     var variant = {};
-
-    if (!$.isEmptyObject(imgMargins)) {
+    //if variants are already saved, populate with these
+    if ((imgMargins[imgId]) != undefined) {
       variant = imgMargins[imgId].variants;
     }
+    //temp objects just to satisfy IE
+    var tmp = {}; 
+    var varTmp = {};
 
 
     //  SAVE ()
@@ -105,7 +106,16 @@
 
       calcMargins(obj[imgId]);
 
-      $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
+      // show either the general focal point, or the variant focal point
+      if (isVariant) {
+         $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + '</span>');
+      }
+      else {
+        $('.js-saved').html('<span style="background: #DEF2D6; color: darkgreen; padding: 6px 12px;">&#10004; Saved focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y + '</span>');
+      }
+      
+       
+      
 
     } // end saveImgMargins()
 
@@ -200,7 +210,7 @@
         var outputContainerHeight = $(this).parent().height();
         
         var containerClass = $(this).parent().attr('class');
-        containerClass = containerClass.replace('output ','');
+        containerClass = containerClass.replace('output ','');  //at this stage the img wrapper must only have output and variant name as classes
         
         
         //ensure image fills its container correctly, depending on dimensions of both
@@ -240,26 +250,25 @@
 
         //how much we move the image is the number of squares as a % of play
         //For example, if we have a 900px image and a 300px container, the play will be 900px - 300px = 600px play. 
-        //If the grid has 12 squares, moving it 3 squares will pull image 3/12 * 600px = 150px.
-        positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
-        positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY); 
+        //If the grid has 12 squares, moving it 3 squares will pull image 3/12 * 600px = 150px.        
+        if (focal != undefined && focal.variants.hasOwnProperty(containerClass)) {
+          gridSize = focal.variants[containerClass].grid;
+          positionX = (((focal.variants[containerClass].X) * (1 / (gridSize - 1))) * playX);
+          positionY = (((focal.variants[containerClass].Y) * (1 / (gridSize - 1))) * playY); 
+         
+        } 
+        else {
+          positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
+          positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY);   
+        }
 
         //prob not needed, just ensures img never goes beyond boundaries
         if (positionX > playX) { positionX = playX; }
-        if (positionY > playY) { positionY = playY; }
+        if (positionY > playY) { positionY = playY; }          
         
-        
-        if (focal != undefined && focal.variants.hasOwnProperty(containerClass)) {
-            positionX = (((focal.variants[containerClass].X) * (1 / (gridSize - 1))) * playX);
-            positionY = (((focal.variants[containerClass].Y) * (1 / (gridSize - 1))) * playY); 
-        }        
+       //these are basically the values that will need to be calculated and applied to each image on page load & resize
+        $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });  
 
-        //these are basically the values that will need to be calculated and applied to each image on page load & resize
-        $(this).css({ 'margin-left': -positionX, 'margin-top': -positionY });
-        
-
-                
-        
       });
 
     } // end calcMargins()
@@ -296,6 +305,22 @@
     } // end uploadFile()
 
 
+    //  RESETALL ()
+    // removes all stored focal points for this image, and 
+
+    function resetAll() {
+      if (confirm("Are you sure you want to reset ALL variants?")) {
+        imgMargins[imgId].variants = {};
+        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
+        alert('Variants reset');
+        calcMargins();
+        
+      } 
+      else {
+        return false;
+      }
+    }
+
 
     //  ONCLICK ()
     //when a focal point is clicked 
@@ -320,8 +345,15 @@
       variantName =  $(this).attr('class').replace('output ','');
       $('body, html').animate({scrollTop: 0}, 200);
       $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
+      $('.js-variantName').html('variant ' + variantName.replace('id',''));
+      $('.ribbon').show();
+      //reset the box (not the selection)
+      $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
+       //$('.js-saved').html('<span style="background: #F8F3D6; color: #836F3A; padding: 6px 12px;">Focal point not yet saved</span>');
+      $('.js-saved').html('');
       isVariant = true;
-      //variant.push(variantName);
+      
+      //$('.panel__selection').css({'background': '#E7F2F7'})
 
     }); // end onClick | variant
 
