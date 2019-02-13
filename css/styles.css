@@ -64,7 +64,8 @@ input {
 /* uploaded photo fills its container */
 .uploaded {
   width: 100%;
-  border-left: 1px solid black; }
+  border-left: 1px solid black;
+  background: #666; }
 
 .panel {
   width: 100%;

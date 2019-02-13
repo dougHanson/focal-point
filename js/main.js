@@ -54,6 +54,9 @@
 
       //if selecting for a variant, extend the Variant object then extend imgMargins object
       if (isVariant) {
+        console.log(variantName);
+        variantName = variantName.replace(' bounce','');
+         console.log(variantName);
         varTmp[variantName] = { 
           "X": squareClicked[0],
           "Y": squareClicked[1],
@@ -373,13 +376,17 @@
       var offset = $('.'+variantName).offset().top;
       $('body, html').animate({scrollTop: offset - 100}, 200);
       
+      $('.output').css({'opacity': 0.5});
+      $('.'+variantName).css({'opacity': 1});
+      
       setTimeout( function() {
         $('.'+variantName).addClass('bounce'); 
       }, 200)
       
       setTimeout( function() {
         $('.'+variantName).removeClass('bounce'); 
-      }, 1500)
+        $('.output').css({'opacity': 1});
+      }, 1210)
     }); // end onClick | variantName in ribbon
 
 
