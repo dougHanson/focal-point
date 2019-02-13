@@ -245,10 +245,17 @@ input {
   color: #1078b2;
   padding: 6px 12px; }
 
+.msg-red {
+  background: #F2DEDE;
+  color: darkred;
+  padding: 6px 12px; }
+
 /* official variants */
 .id4 {
   width: 195px;
   height: 280px; }
+  .id4 img {
+    height: 200% !important; }
 
 .id4 {
   width: 140px;
@@ -277,10 +284,14 @@ input {
 .id13 {
   width: 100px;
   height: 100px; }
+  .id13 img {
+    height: 350% !important; }
 
 .id14 {
   width: 840px;
   height: 840px; }
+  .id14 img {
+    height: 150% !important; }
 
 .id15 {
   width: 385px;

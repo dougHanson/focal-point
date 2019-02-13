@@ -1,11 +1,11 @@
    
     // DOUG  image sources for testing only
     var imgSrc = 'img/image@3x.jpg';
-    //var imgSrc = 'img/teacher.jpg';
-    var imgSrc = 'img/students.jpg';
+    var imgSrc = 'img/teacher.jpg';
+    //var imgSrc = 'img/students.jpg';
     //var imgSrc = 'img/couple@3x.jpg';
     //var imgSrc = 'img/tree.jpg';    
-    var imgSrc = 'img/street.jpg';
+    //var imgSrc = 'img/street.jpg';
     //var imgSrc = 'img/ocean.jpg';
     //var imgSrc = 'img/mountain.jpg';
     //var imgSrc = 'img/hills.jpg';
@@ -65,7 +65,7 @@
         tmp[imgId] = {
           "X": imgMargins[imgId].X,
           "Y": imgMargins[imgId].Y,
-          "grid": imgMargins[imgId].Y,
+          "grid": imgMargins[imgId].grid,
           "variants": variant
         };        
         
@@ -105,7 +105,7 @@
       var obj = JSON.parse(localStorage.getItem('imgMargins'));
       console.log(obj);
   
-      calcMargins(obj[imgId]);
+
 
       // show either the general focal point, or the variant focal point
       if (isVariant) {
@@ -116,7 +116,10 @@
       }
       
       //restore all variants to full opacity
-      $('.output').css({'opacity': 1});
+      //$('.output').css({'opacity': 1});
+      $('.output').show();
+      
+      calcMargins(obj[imgId]);
       
 
     } // end saveImgMargins()
@@ -129,9 +132,10 @@
       if (confirm("Reset ALL variants for this image?")) {
         imgMargins[imgId].variants = {};
         localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
-        alert('Variants reset for this image');
+        //alert('Variants reset for this image');
         $('.js-box').css({ 'top': 0, 'left': 0, 'opacity': 0 });
         $('.js-box, .js-saved').html('');
+        $('.js-saved').html('<span class="msg-red">All variants reset</span>')
         
         calcMargins();
       } 
@@ -174,7 +178,7 @@
     //  GETGRIDSIZE ()
     //get gridsize from entered input, then redraw grid
     var getGridSize = function() {
-      gridSize = $('.js-input').val();
+      gridSize = $('.js-input').val() || 15;
       if (gridSize <= 50 && gridSize >= 2) {
         layGrid();
       }
@@ -220,7 +224,7 @@
     //calculate margins based on wrapping container dimensions
     function calcMargins(focal) {
       //if we're passing a saved focal point through, use that instead
-      if (focal != undefined && !isVariant) {
+      if (focal != undefined) {
         squareClicked[0] = focal.X;
         squareClicked[1] = focal.Y;  
       }
@@ -346,8 +350,10 @@
     //when a variant is clicked change UI to offer affordance
     $('.output').on('click', function(e) {
       
-      $('.output').css({'opacity': 0.3});
-      $(this).css({'opacity': 1});
+      //$('.output').css({'opacity': 0.3});
+      //$(this).css({'opacity': 1});
+      $('.output').hide();
+      $(this).show();
       
       isVariant = true;
       variantName =  $(this).attr('class').replace('output ','');
@@ -362,11 +368,18 @@
     }); // end onClick | variant
 
 
-    //when variant name in ribbon is clicked, scroll to variant and make it pop
+    //when variant name in ribbon is clicked, scroll to variant and make it bounce
     $('.js-variantName').on('click', function(e) {      
       var offset = $('.'+variantName).offset().top;
       $('body, html').animate({scrollTop: offset - 100}, 200);
-      $('.'+variantName).addClass('bounce');      
+      
+      setTimeout( function() {
+        $('.'+variantName).addClass('bounce'); 
+      }, 200)
+      
+      setTimeout( function() {
+        $('.'+variantName).removeClass('bounce'); 
+      }, 1500)
     }); // end onClick | variantName in ribbon
 
 
