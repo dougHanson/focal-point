@@ -32,24 +32,20 @@
   </div>-->
 
   <div class="panel panel__selection">
-    <div class="ribbon ribbon-top-right"><span class="js-variantName" style="cursor: pointer;" title="click to review this variant">variant</span></div>
-    <h2>Save <span class="js-whichFocal"><span class="msg-green">common</span></span> focal point</h2>
+    <div class="ribbon ribbon-top-right">
+      <span class="js-variantName" title="click to review this variant">variant</span>
+    </div>
+    <h2>Save <span class="js-whichFocal"><span class="text-yellow">common</span></span> focal point</h2>
 
-    <p class="js-selected" style="margin-bottom: 16px;"></p>
-    <p>
-      <span class="js-saved">
-        <span class="msg-yellow">Focal point not yet saved</span>
-      </span>
-    </p>
-    <br><br>
-    <button onClick="saveImgMargins()" class="submit" style="width:50%; float: left;">Save &amp; Publish</button>
-    <button onClick="resetAll()" class="reset">Reset variants</button>
+    <p class="js-selected" ></p>
+    <button onClick="saveImgMargins()" class="submit">Save selection</button>
+    <button onClick="resetAll()" class="js-reset reset">Reset variants</button>
   
-    <a href=""><img src="img/refresh.svg" height="40px" style="display: none; float: left; margin: 0;" class="js-imgRefresh" title="Back to common focal point" /></a>
-
+    <a href=""><img src="img/common-image.png" class="js-imgRefresh common-image" title="Select common focal point" /></a>
   </div>
 
-
+  <!-- feedback panel for the user -->
+  <div class="panel panel__feedback js-saved msg-blue">To begin, select a focal point and click the save button</div>
   <div style="clear:both;"></div>
 
 

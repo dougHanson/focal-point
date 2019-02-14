@@ -2,6 +2,7 @@ $dark_grey: #404040;
 $borders: #bbb;
 $shadows: #666;
 $dark_green: darkgreen;
+$dark_yellow: #836F3A; //darkgoldenrod
 $primary_blue: #1078b2;
 $primary_font: 'Raleway', sans-serif;
 
@@ -22,6 +23,10 @@ body {
   background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
+
+/* **************
+// type 
+***************** */
 p {
   margin-top: 16px;
 }
@@ -35,6 +40,18 @@ h2 {
   margin-bottom: 20px;
 }
 
+.text-yellow {
+  color: $dark_yellow;
+}
+
+.text-blue { 
+  color: $primary_blue;
+}
+
+
+/* **************
+// form elements
+***************** */
 button {
   padding: 5px 10px;
 
@@ -45,6 +62,10 @@ button {
     background-color: $dark_grey;
     border: 1px solid $dark_grey;
     box-shadow: 0px 0px 0px $shadows;
+    width: 240px;
+    margin: 0px 20px 20px 0;
+    display: block;
+    float: left;
 
     &:hover {
       color: $dark_grey;
@@ -59,6 +80,10 @@ button {
       background-color: white;
       box-shadow: 0px 0px 2px $shadows;
     }
+
+    @media (min-width: 1170px) {
+      float: none;
+    }
   }
 
   &.reset {
@@ -66,7 +91,7 @@ button {
     display: block;
     text-align: center;
     height: 45px;
-    margin: 0 5%;
+    margin-right: 20px;
   }
 }
 
@@ -74,25 +99,10 @@ input {
   height: 30px;
 }
 
-.logo {
-  height: 36px;
-  margin-right: 20px;
-}
 
-.image-wrapper {
-  width: 100%;
-  margin-bottom: 20px;
-  position: relative;
-
-}
-
-/* uploaded photo fills its container */
-.uploaded {
-  width: 100%;
-  border-left: 1px solid black;
-  background: $shadows;
-}
-
+/* **************
+// panels
+***************** */
 .panel {
   width: 100%;
   padding: 25px 40px;
@@ -105,6 +115,11 @@ input {
     position: relative;
   }
 
+  &__feedback {
+    padding: 0 !important;
+    margin-bottom: 40px;
+  }
+
   @media (min-width: 1170px) {
     width: 28%;
     padding: 25px 30px;
@@ -114,10 +129,12 @@ input {
     margin-bottom: 20px;
     border: 1px solid $borders;
   }
-
 }
 
-/* overlay this guy atop whatever image is uploaded */
+
+/* **************
+// grid
+***************** */
 .grid {
   position: absolute;
   top: 0px;
@@ -126,7 +143,6 @@ input {
   border-top: 1px solid black;
 }
 
-/* this colours in the square that was clicked */
 .grid-box {
   background: $primary_blue;
   border-bottom: 1px solid black;
@@ -141,6 +157,7 @@ input {
 
 .tick {
   display: none;
+  position: relative;
 
   @media (min-width: 1170px) {
     display: block;
@@ -148,12 +165,122 @@ input {
   }
 }
 
+
+/* **************
+// ribbon
+***************** */
+.ribbon {
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
+
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid $primary_blue;
+}
+
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+  color: white;
+  font: $primary_font;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  text-align: center;
+  cursor: pointer;
+}
+
+.ribbon-top-right {
+  top: -10px;
+  right: -10px;
+}
+
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+
+.ribbon-top-right::before {
+  top: 0;
+  left: 0;
+}
+
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0;
+}
+
+.ribbon-top-right span {
+  left: -42px;
+  top: 13px;
+  transform: rotate(45deg);
+}
+
+
+/* **************
+// messages
+***************** */
+.msg-yellow {
+  background: #F8F3D6;
+  color: $dark_yellow;
+  padding: 20px 30px !important;
+}
+
+.msg-green {
+  background: #DEF2D6;
+  color: $dark_green;
+  padding: 20px 30px !important;
+}
+
+.msg-blue {
+  background: #D9EDF7;
+  color: $primary_blue;
+  padding: 20px 30px !important;
+}
+
+.msg-red {
+  background: #F2DEDE;
+  color: darkred;
+  padding: 20px 30px !important;
+}
+
+
+/* **************
+// images
+***************** */
+.logo {
+  height: 48px;
+  margin-right: 24px;
+}
+
+.uploaded {
+  width: 100%;
+  border-left: 1px solid black;
+  background: $shadows;
+  
+  @media (min-width: 1170px) {
+    min-height: 395px;
+  }
+}
+
 .image-wrapper {
+  position: relative;  
+  
   @media (min-width: 1170px) {
     width: 70%;
     float: left;
     margin-bottom: 60px;
-    position: relative;
 
     &:before {
       z-index: -1;
@@ -223,106 +350,24 @@ input {
     width: 350px;
     margin: 5px;
   }
-
 }
 
-
-
-/* ribbon */
-.ribbon {
-  width: 110px;
-  height: 110px;
-  overflow: hidden;
-  position: absolute;
-  display: none;
+.common-image {
+  height: 40px;
+  display: none; 
+  float: left; 
+  margin: 0;
+  cursor: pointer;
 }
-
-.ribbon::before,
-.ribbon::after {
-  position: absolute;
-  z-index: -1;
-  content: '';
-  display: block;
-  border: 5px solid $primary_blue;
-}
-
-.ribbon span {
-  position: absolute;
-  display: block;
-  width: 225px;
-  padding: 15px 0;
-  background-color: #3498db;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
-  color: #fff;
-  font: $primary_font;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  text-align: center;
-}
-
-.ribbon-top-right {
-  top: -10px;
-  right: -10px;
-}
-
-.ribbon-top-right::before,
-.ribbon-top-right::after {
-  border-top-color: transparent;
-  border-right-color: transparent;
-}
-
-.ribbon-top-right::before {
-  top: 0;
-  left: 0;
-}
-
-.ribbon-top-right::after {
-  bottom: 0;
-  right: 0;
-}
-
-.ribbon-top-right span {
-  left: -42px;
-  top: 13px;
-  transform: rotate(45deg);
-}
-
-
-
-/* messages */
-.msg-yellow {
-  background: #F8F3D6;
-  color: #836F3A;
-  padding: 6px 12px;
-}
-
-.msg-green {
-  background: #DEF2D6;
-  color: $dark_green;
-  padding: 6px 12px;
-}
-
-.msg-blue {
-  background: #D9EDF7;
-  color: $primary_blue;
-  padding: 6px 12px;
-}
-
-.msg-red {
-  background: #F2DEDE;
-  color: darkred;
-  padding: 6px 12px;
-}
-
-
 
 /* official variants */
 .id4 {
   width: 195px;
   height: 280px;
 
-  img { 
+  img {
     height: 200% !important;
-  }  
+  }
 }
 
 .id4 {
@@ -358,8 +403,8 @@ input {
 .id13 {
   width: 100px;
   height: 100px;
-  
-  img { 
+
+  img {
     height: 350% !important;
   }
 }
@@ -367,10 +412,10 @@ input {
 .id14 {
   width: 840px;
   height: 840px;
-  
-  img { 
+
+  img {
     height: 150% !important;
-  }  
+  }
 }
 
 .id15 {
@@ -473,18 +518,17 @@ input {
   height: 560px;
 }
 
-
 /* bounce animation */
 @-webkit-keyframes bounce {
   0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
   40% {-webkit-transform: translateY(-30px) }
   60% {-webkit-transform: translateY(-20px);}
-} 
+}
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
   40% {transform: translateY(-30px);}
   60% {transform: translateY(-20px);}
-} 
+}
 
 .bounce {
   -webkit-animation-duration: 1s;
