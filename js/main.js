@@ -3,14 +3,14 @@
    //var imgSrc = 'img/teacher.jpg';
    //var imgSrc = 'img/students.jpg';
    //var imgSrc = 'img/couple@3x.jpg';
-   var imgSrc = 'img/tree.jpg';    
+   //var imgSrc = 'img/tree.jpg';    
    //var imgSrc = 'img/street.jpg';
    //var imgSrc = 'img/ocean.jpg';
-   //var imgSrc = 'img/mountain.jpg';
+   var imgSrc = 'img/mountain.jpg';
    //var imgSrc = 'img/hills.jpg';
-   //var imgSrc = 'img/nature.jpg';
-   //var imgSrc = 'img/beaver.jpg';
-   //var imgSrc = 'img/cab.png';
+   var imgSrc = 'img/sitting.jpg';
+   var imgSrc = 'img/spider-web.jpg';
+   var imgSrc = 'img/gorilla.jpg';
 
    $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
@@ -71,7 +71,7 @@
          $('.js-box').html('<span class="cross" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10006;</span>');
          $('.js-saved').addClass('msg-red');
          $('.js-saved').addClass('msg-green msg-blue msg-yellow');
-         $('.js-saved').html('Please select a common focal before selecting for variants')
+         $('.js-saved').html('Please select a common focal before selecting for variants');
          setInterval( function() {
            $('.common-image').addClass('bounce');
            setTimeout( function() {
@@ -128,8 +128,7 @@
      $('.js-saved').addClass('msg-green');
      $('.js-saved').removeClass('msg-red msg-yellow msg-blue');
 
-     //restore all variants to full opacity
-     //$('.output').css({'opacity': 1});
+     //restore all variants
      $('.output').show();
 
      calcMargins(obj[imgId]);
@@ -138,9 +137,9 @@
 
 
 
-   //  RESETALL ()
+   //  RESETVARIANTS ()
    // removes all stored focal points for this image, and 
-   function resetAll() {
+   function resetVariants() {
      if (confirm("Reset ALL variants for this image?")) {
 
        //empty variants object and save it to localStorage
@@ -160,13 +159,15 @@
        $('.js-saved').addClass('msg-yellow');
        $('.js-saved').removeClass('msg-green msg-red msg-blue');
 
+       $('.output').show();
+
        var obj = JSON.parse(localStorage.getItem('imgMargins'));
        calcMargins(obj[imgId]);
      } 
      else {
        return false;
      }
-   } // end resetAll()
+   } // end resetVariants()
 
 
 

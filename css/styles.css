@@ -476,7 +476,7 @@ input {
     width: 5%;
     height: 25vh; }
     .doug-variants .vt-xs img {
-      min-height: 200% !important; }
+      min-height: 150% !important; }
   .doug-variants .hz-big {
     width: 80%;
     height: 25vh; }
@@ -487,7 +487,7 @@ input {
     width: 20%;
     height: 10vh; }
     .doug-variants .hz-small img {
-      min-width: 300% !important; }
+      min-width: 150% !important; }
   .doug-variants .sq-big {
     width: 30%;
     height: 45vh; }
@@ -498,9 +498,9 @@ input {
     width: 15%;
     height: 25vh; }
     .doug-variants .sq-small img {
-      min-width: 300% !important; }
+      min-width: 150% !important; }
   .doug-variants .sq-xs {
     width: 7%;
     height: 10vh; }
     .doug-variants .sq-xs img {
-      min-width: 600% !important; } }
+      min-width: 400% !important; } }

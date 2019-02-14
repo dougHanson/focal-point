@@ -573,7 +573,7 @@ input {
       height: 25vh;
       
       img {
-        min-height: 200% !important;
+        min-height: 150% !important;
       }      
     }    
     .hz-big {
@@ -589,7 +589,7 @@ input {
       height: 10vh;
       
       img {
-        min-width: 300% !important;
+        min-width: 150% !important;
       }
     }
     .sq-big {
@@ -605,7 +605,7 @@ input {
       height: 25vh;
       
       img { 
-        min-width: 300% !important;
+        min-width: 150% !important;
       }
     }
     .sq-xs {
@@ -613,7 +613,7 @@ input {
       height: 10vh;
       
       img { 
-        min-width: 600% !important;
+        min-width: 400% !important;
       }
     }    
   }
