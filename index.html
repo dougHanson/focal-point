@@ -23,7 +23,7 @@
   <div class="panel">
     <h2>Upload image</h2>
     <input type="file" onchange="uploadFile()">
-    <p><small>( Demonstration purposes only )</small></p>
+    <p><small>( Demonstration purposes only ) </small> <span class="js-empty" onClick="localStorage.clear();" style="font-size: 10px; color: red; cursor: pointer; float: right;">X empty storage</span></p>
   </div>
 
 <!--  <div class="panel">
@@ -47,7 +47,7 @@
   </div>
 
   <!-- feedback panel for the user -->
-  <div class="panel panel__feedback js-saved msg-blue">To begin, select a focal point and click the save button</div>
+  <div class="panel panel__feedback js-saved msg-blue">To begin, select a common focal point and click save</div>
   <div style="clear:both;"></div>
 
 
@@ -86,8 +86,6 @@
     <div class="output sq-xs">
       <img src="img/loading.gif" class="js-output" />
     </div> 
-
-
     <div style="clear: both;"><br /><hr><br /></div>    
   </div>  
 

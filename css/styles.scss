@@ -1,8 +1,9 @@
 $dark_grey: #404040;
 $borders: #bbb;
 $shadows: #666;
-$dark_green: darkgreen;
-$dark_yellow: #836F3A; //darkgoldenrod
+$dark_red: #701010;
+$dark_green: #107010;
+$dark_yellow: #705010;
 $primary_blue: #1078b2;
 $primary_font: 'Raleway', sans-serif;
 
@@ -27,26 +28,13 @@ body {
 /* **************
 // type 
 ***************** */
-p {
-  margin-top: 16px;
-}
+p { margin-top: 16px; }
 
-h1 {
-  font-size: 42px;
-  margin-bottom: 20px;
-}
+h1 {font-size: 42px; margin-bottom: 20px; }
+h2 { margin-bottom: 20px; }
 
-h2 {
-  margin-bottom: 20px;
-}
-
-.text-yellow {
-  color: $dark_yellow;
-}
-
-.text-blue { 
-  color: $primary_blue;
-}
+.text-yellow { color: $dark_yellow; }
+.text-blue { color: $primary_blue; }
 
 
 /* **************
@@ -164,6 +152,15 @@ input {
     color: $dark_green;
   }
 }
+.cross {
+  display: none;
+  position: relative;
+
+  @media (min-width: 1170px) {
+    display: block;
+    color: $dark_red;
+  }
+}
 
 
 /* **************
@@ -234,24 +231,28 @@ input {
 .msg-yellow {
   background: #F8F3D6;
   color: $dark_yellow;
+  border-color: $dark_yellow;
   padding: 20px 30px !important;
 }
 
 .msg-green {
   background: #DEF2D6;
   color: $dark_green;
+  border-color: $dark_green;
   padding: 20px 30px !important;
 }
 
 .msg-blue {
   background: #D9EDF7;
   color: $primary_blue;
+  border-color: $primary_blue;
   padding: 20px 30px !important;
 }
 
 .msg-red {
   background: #F2DEDE;
-  color: darkred;
+  color: $dark_red;
+  border-color: $dark_red;
   padding: 20px 30px !important;
 }
 

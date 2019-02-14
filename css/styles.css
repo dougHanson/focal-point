@@ -27,7 +27,7 @@ h2 {
   margin-bottom: 20px; }
 
 .text-yellow {
-  color: #836F3A; }
+  color: #705010; }
 
 .text-blue {
   color: #1078b2; }
@@ -123,7 +123,15 @@ input {
   @media (min-width: 1170px) {
     .tick {
       display: block;
-      color: darkgreen; } }
+      color: #107010; } }
+
+.cross {
+  display: none;
+  position: relative; }
+  @media (min-width: 1170px) {
+    .cross {
+      display: block;
+      color: #701010; } }
 
 /* **************
 // ribbon
@@ -183,22 +191,26 @@ input {
 ***************** */
 .msg-yellow {
   background: #F8F3D6;
-  color: #836F3A;
+  color: #705010;
+  border-color: #705010;
   padding: 20px 30px !important; }
 
 .msg-green {
   background: #DEF2D6;
-  color: darkgreen;
+  color: #107010;
+  border-color: #107010;
   padding: 20px 30px !important; }
 
 .msg-blue {
   background: #D9EDF7;
   color: #1078b2;
+  border-color: #1078b2;
   padding: 20px 30px !important; }
 
 .msg-red {
   background: #F2DEDE;
-  color: darkred;
+  color: #701010;
+  border-color: #701010;
   padding: 20px 30px !important; }
 
 /* **************

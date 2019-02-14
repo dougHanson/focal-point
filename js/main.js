@@ -1,13 +1,13 @@
    // DEFINE UPLOADED IMAGES - for testing only
    var imgSrc = 'img/image@3x.jpg';
-   var imgSrc = 'img/teacher.jpg';
-   var imgSrc = 'img/students.jpg';
+   //var imgSrc = 'img/teacher.jpg';
+   //var imgSrc = 'img/students.jpg';
    //var imgSrc = 'img/couple@3x.jpg';
-   //var imgSrc = 'img/tree.jpg';    
+   var imgSrc = 'img/tree.jpg';    
    //var imgSrc = 'img/street.jpg';
-   var imgSrc = 'img/ocean.jpg';
-   var imgSrc = 'img/mountain.jpg';
-   var imgSrc = 'img/hills.jpg';
+   //var imgSrc = 'img/ocean.jpg';
+   //var imgSrc = 'img/mountain.jpg';
+   //var imgSrc = 'img/hills.jpg';
    //var imgSrc = 'img/nature.jpg';
    //var imgSrc = 'img/beaver.jpg';
    //var imgSrc = 'img/cab.png';
@@ -64,6 +64,22 @@
        };
 
        $.extend(variant, varTmp);
+       
+       // do not allow user to save a variant focal point before saving a common focal point
+       if (imgMargins[imgId] === undefined) {
+         $('.js-box').css({ 'background-color': '#ff0000' });
+         $('.js-box').html('<span class="cross" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10006;</span>');
+         $('.js-saved').addClass('msg-red');
+         $('.js-saved').addClass('msg-green msg-blue msg-yellow');
+         $('.js-saved').html('Please select a common focal before selecting for variants')
+         setInterval( function() {
+           $('.common-image').addClass('bounce');
+           setTimeout( function() {
+               $('.common-image').removeClass('bounce');
+             }, 2500);
+         }, 3000);
+         return false; //stop processing
+       }
 
        tmp[imgId] = {
          "X": imgMargins[imgId].X,
@@ -83,7 +99,8 @@
              "grid": gridSize,
              "variants": variant
            };
-         } else {
+         } 
+         else {
            tmp[imgId] = {
              "X": squareClicked[0],
              "Y": squareClicked[1],
@@ -103,10 +120,10 @@
 
      // show either the general focal point, or the variant focal point
      if (isVariant) {
-       $('.js-saved').html('&#10004; Saved variant focal point:  ' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y);
+       $('.js-saved').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
      } 
      else {
-       $('.js-saved').html('&#10004; Saved common focal point:  ' + obj[imgId].X + ' , ' + obj[imgId].Y);
+       $('.js-saved').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
      }
      $('.js-saved').addClass('msg-green');
      $('.js-saved').removeClass('msg-red msg-yellow msg-blue');
@@ -143,7 +160,8 @@
        $('.js-saved').addClass('msg-yellow');
        $('.js-saved').removeClass('msg-green msg-red msg-blue');
 
-       calcMargins();
+       var obj = JSON.parse(localStorage.getItem('imgMargins'));
+       calcMargins(obj[imgId]);
      } 
      else {
        return false;
@@ -307,7 +325,13 @@
        });
 
      });
-
+       
+    //if a variant, don't let it reassume the parent X and Y coords
+    if (focal != undefined && isVariant) {
+       squareClicked[0] = focal.variants[variantName].X;
+       squareClicked[1] = focal.variants[variantName].Y;
+     }
+     
    } // end calcMargins()
 
 
@@ -342,7 +366,7 @@
    //when a focal point is clicked colour the grid square and update output
    gridImg.on('click', function (e) {
      //color the box they clicked red
-     $('.js-box').css({ 'background-color': '#ff0000' });
+     $('.js-box').css({ 'background-color': '#1078b2' });
      $('.js-box').html('');
 
      //get which square user clicked on
@@ -367,7 +391,7 @@
 
      $('body, html').animate({ scrollTop: 0 }, 200);
      $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
-     $('.js-variantName').html('variant ' + variantName.replace('bounce', ''));
+     $('.js-variantName').html(variantName.replace('bounce', ''));
      $('.ribbon, .js-imgRefresh').show();
      $('.js-box').css({
        'top': 0,
@@ -400,6 +424,7 @@
 
 
 
+   // WINDOW LOAD & RESIZE ()
    //on doc load and window resize, refit the grid and recalc the margins based on new container width
    $(window).on("load resize", function (e) {
 
@@ -412,7 +437,6 @@
      //if image is already saved, load saved focal point, otherwise clacMargins will default it to centre of image
      if (imgId.length) {
        var obj = JSON.parse(localStorage.getItem('imgMargins'));
-       var vars = JSON.parse(localStorage.getItem('imgMarginsVariants'));
 
        //set small delay to ensure images have resized before recalc of margins
        if (obj != undefined) {
