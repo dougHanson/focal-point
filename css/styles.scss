@@ -536,3 +536,84 @@ input {
   -webkit-animation-name: bounce;
   animation-name: bounce;
 }
+
+
+.doe-variants {
+  display: none;
+}
+
+.doug-variants {
+  //display: none;
+
+  .output { 
+    margin: 0; 
+    border: 4px solid white; 
+    width: 100%;
+    max-height: 200px;
+    &:hover { border-color: $dark_grey; }
+  }
+
+  @media (min-width: 992px) { 
+    .output { max-height: none; }
+    .vt-big {
+      width: 20%;
+      height: 90vh;
+    }
+    .vt-medium {
+      width: 20%;
+      height: 65vh;
+    }
+    .vt-small {
+      width: 10%;
+      height: 45vh;
+    }
+    .vt-xs {
+      width: 5%;
+      height: 25vh;
+      
+      img {
+        min-height: 200% !important;
+      }      
+    }    
+    .hz-big {
+      width: 80%;
+      height: 25vh;
+    }
+    .hz-medium {
+      width: 60%;
+      height: 20vh;
+    }
+    .hz-small {
+      width: 20%;
+      height: 10vh;
+      
+      img {
+        min-width: 300% !important;
+      }
+    }
+    .sq-big {
+      width: 30%;
+      height: 45vh;
+    }
+    .sq-medium {
+      width: 20%;
+      height: 15vh;
+    }    
+    .sq-small {
+      width: 15%;
+      height: 25vh;
+      
+      img { 
+        min-width: 300% !important;
+      }
+    }
+    .sq-xs {
+      width: 7%;
+      height: 10vh;
+      
+      img { 
+        min-width: 600% !important;
+      }
+    }    
+  }
+}

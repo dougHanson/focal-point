@@ -5,9 +5,9 @@
    //var imgSrc = 'img/couple@3x.jpg';
    //var imgSrc = 'img/tree.jpg';    
    //var imgSrc = 'img/street.jpg';
-   //var imgSrc = 'img/ocean.jpg';
+   var imgSrc = 'img/ocean.jpg';
    var imgSrc = 'img/mountain.jpg';
-   //var imgSrc = 'img/hills.jpg';
+   var imgSrc = 'img/hills.jpg';
    //var imgSrc = 'img/nature.jpg';
    //var imgSrc = 'img/beaver.jpg';
    //var imgSrc = 'img/cab.png';
