@@ -125,7 +125,7 @@
    // removes all stored focal points for this image, and 
    function resetAll() {
      if (confirm("Reset ALL variants for this image?")) {
-       
+
        //empty variants object and save it to localStorage
        imgMargins[imgId].variants = {};
        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
@@ -137,7 +137,7 @@
          'opacity': 0 
        });
        $('.js-box').html('');
-       
+
        //give feedback to user
        $('.js-saved').html('All variants reset');
        $('.js-saved').addClass('msg-yellow');
@@ -155,7 +155,7 @@
    //  LAYGRID ()
    //overlay grid image - squash it to fit the image shape
    function layGrid() {
-     
+
      //clear the grid to start
      $('.js-grid').html(''); 
 
@@ -421,6 +421,5 @@
            calcMargins(obj[imgId]);
          }, 200);
        }
-
      }
    });
