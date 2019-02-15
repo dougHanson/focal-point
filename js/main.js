@@ -148,8 +148,8 @@
 
        //hide box from grid
        $('.js-box').css({ 
-         'top': 0, 
-         'left': 0, 
+         'top': -100, 
+         'left': -100, 
          'opacity': 0 
        });
        $('.js-box').html('');
@@ -168,6 +168,36 @@
        return false;
      }
    } // end resetVariants()
+
+
+   //  COMMONIMAGE ()
+   // removes all stored focal points for this image, and 
+   function commonImage() {
+       
+       isVariant = false;
+       $('.js-whichFocal').html('<span style="color: #1078b2;">variant</span>');
+
+       //give feedback to user
+       $('.js-whichFocal').html('<span style="color: #705010;">common</span>');
+       $('.js-saved').html('Saving a new common focal point will not overwrite variant focal points');
+       $('.js-saved').addClass('msg-blue');
+       $('.js-saved').removeClass('msg-green msg-red msg-yellow');
+       $('.ribbon').hide();
+          
+       //reset the box (not the selection)
+       $('.js-box').css({ 
+         'top': -100, 
+         'left': -100, 
+         'opacity': 0 
+       });
+
+       $('.output').show();
+
+       var obj = JSON.parse(localStorage.getItem('imgMargins'));
+       calcMargins(obj[imgId]);
+
+   } // end commonImage()
+
 
 
 
@@ -196,8 +226,8 @@
 
      //reset the box (not the selection)
      $('.js-box').css({ 
-       'top': 0, 
-       'left': 0, 
+       'top': -100, 
+       'left': -100, 
        'opacity': 0 
      });
 
@@ -389,8 +419,8 @@
      $('.js-variantName').html(variantName.replace('bounce', ''));
      $('.ribbon, .js-imgRefresh').show();
      $('.js-box').css({
-       'top': 0,
-       'left': 0,
+       'top': -100,
+       'left': -100,
        'opacity': 0
      });
      $('.js-whichFocal').html('<span style="color: #1078b2;">variant</span>');
