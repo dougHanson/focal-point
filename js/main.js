@@ -69,15 +69,15 @@
        if (imgMargins[imgId] === undefined) {
          $('.js-box').css({ 'background-color': '#ff0000' });
          $('.js-box').html('<span class="cross" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10006;</span>');
-         $('.js-saved').addClass('msg-red');
-         $('.js-saved').addClass('msg-green msg-blue msg-yellow');
-         $('.js-saved').html('Please select a common focal before selecting for variants');
+         $('.js-feedback').addClass('msg-red');
+         $('.js-feedback').addClass('msg-green msg-blue msg-yellow');
+         $('.js-feedback').html('Please select a common focal point before selecting&nbsp;variants');
          setInterval( function() {
-           $('.common-image').addClass('bounce');
+           $('.common-icon').addClass('bounce');
            setTimeout( function() {
-               $('.common-image').removeClass('bounce');
-             }, 2500);
-         }, 3000);
+               $('.common-icon').removeClass('bounce');
+             }, 2400);
+         }, 2500);
          return false; //stop processing
        }
 
@@ -120,13 +120,13 @@
 
      // show either the general focal point, or the variant focal point
      if (isVariant) {
-       $('.js-saved').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
+       $('.js-feedback').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
      } 
      else {
-       $('.js-saved').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
+       $('.js-feedback').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
      }
-     $('.js-saved').addClass('msg-green');
-     $('.js-saved').removeClass('msg-red msg-yellow msg-blue');
+     $('.js-feedback').addClass('msg-green');
+     $('.js-feedback').removeClass('msg-red msg-yellow msg-blue');
 
      //restore all variants
      $('.output').show();
@@ -155,9 +155,9 @@
        $('.js-box').html('');
 
        //give feedback to user
-       $('.js-saved').html('All variants reset');
-       $('.js-saved').addClass('msg-yellow');
-       $('.js-saved').removeClass('msg-green msg-red msg-blue');
+       $('.js-feedback').html('All variant focal points reset');
+       $('.js-feedback').addClass('msg-yellow');
+       $('.js-feedback').removeClass('msg-green msg-red msg-blue');
 
        $('.output').show();
 
@@ -179,9 +179,9 @@
 
        //give feedback to user
        $('.js-whichFocal').html('<span style="color: #705010;">common</span>');
-       $('.js-saved').html('Saving a new common focal point will not overwrite variant focal points');
-       $('.js-saved').addClass('msg-blue');
-       $('.js-saved').removeClass('msg-green msg-red msg-yellow');
+       $('.js-feedback').html('Saving a common focal point will not overwrite variant focal&nbsp;points');
+       $('.js-feedback').addClass('msg-blue');
+       $('.js-feedback').removeClass('msg-green msg-red msg-yellow');
        $('.ribbon').hide();
           
        //reset the box (not the selection)
