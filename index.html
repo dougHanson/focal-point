@@ -22,7 +22,7 @@
 
   <div class="panel">
     <h2>Upload image</h2>
-    <input type="file" onchange="uploadFile()">
+    <input type="file" id="file" onchange="uploadFile(this)">
     <p><small>( Demonstration purposes only ) </small> <span class="js-empty" onClick="localStorage.clear();" style="font-size: 10px; color: red; cursor: pointer; float: right;">X empty storage</span></p>
   </div>
 
@@ -41,9 +41,11 @@
 
     <p class="js-selected" ></p>
     <button onClick="saveImgMargins()" class="submit">Save selection</button>
-    <button onClick="resetVariants()" class="js-reset reset">Reset variants</button>
+    <!--<button onClick="resetVariants()" class="js-reset reset">Reset variants</button>-->
+    
+    <a href="" onClick="resetVariants()"><img src="img/trash.png" class="js-reset trash-icon" title="Reset variant focal points" /></a>
   
-    <a href=""><img src="img/common-image.png" class="js-imgRefresh common-image" title="Select common focal point" /></a>
+    <a href=""><img src="img/common-image.png" class="js-imgRefresh common-icon" title="Select common focal point" /></a>
   </div>
 
   <!-- feedback panel for the user -->

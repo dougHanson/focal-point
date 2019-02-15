@@ -339,27 +339,21 @@
 
    //  UPLOADFILE ()
    //gets file from hdd and uploads into container
-   function uploadFile() {
-     var preview = document.querySelector('.uploaded'); //selects the query
-     var file = document.querySelector('input[type=file]').files[0]; //sames as here
-     var reader = new FileReader();
-
-     reader.onloadend = function () { preview.src = reader.result; };
-
-     //reads the data as a URL
-     if (file) { reader.readAsDataURL(file); } 
-     else { preview.src = ""; }
-
-     //set small delay to ensure images have resized before recalc of margins
-     setTimeout(function () {
-       layGrid();
-       $('.js-output, .uploaded').attr('src', preview.src);
-       imgId = $('.uploaded').attr('src');
-       var obj = JSON.parse(localStorage.getItem('imgMargins'));
-       calcMargins(obj[imgId]);
-     }, 200);
-
-   } // end uploadFile()
+    function uploadFile(f) {
+      var filePath = $('#file').val();
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('.js-output, .uploaded').attr('src', URL.createObjectURL(f.files[0]));
+      };
+      reader.readAsDataURL(f.files[0]);
+      
+      setTimeout(function () {
+        layGrid();
+        imgId = $('.uploaded').attr('src');
+        var obj = JSON.parse(localStorage.getItem('imgMargins'));
+        calcMargins(obj[imgId]);
+      }, 200);
+    }
 
 
 

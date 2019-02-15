@@ -50,7 +50,7 @@ button {
     background-color: $dark_grey;
     border: 1px solid $dark_grey;
     box-shadow: 0px 0px 0px $shadows;
-    width: 240px;
+    width: 100%;
     margin: 0px 20px 20px 0;
     display: block;
     float: left;
@@ -71,6 +71,7 @@ button {
 
     @media (min-width: 1170px) {
       float: none;
+      width: 240px;
     }
   }
 
@@ -353,12 +354,21 @@ input {
   }
 }
 
-.common-image {
+.common-icon,
+.trash-icon {
   height: 40px;
-  display: none; 
   float: left; 
   margin: 0;
   cursor: pointer;
+  transition: all 200ms;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.common-icon {
+  display: none;
 }
 
 /* official variants */
