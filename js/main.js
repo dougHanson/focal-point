@@ -72,12 +72,12 @@
          $('.js-feedback').addClass('msg-red');
          $('.js-feedback').addClass('msg-green msg-blue msg-yellow');
          $('.js-feedback').html('Please select a common focal point before selecting&nbsp;variants');
-         setInterval( function() {
-           $('.common-icon').addClass('bounce');
+         setTimeout( function() {
+           $('.js-imgRefresh').addClass('bounce');
            setTimeout( function() {
-               $('.common-icon').removeClass('bounce');
-             }, 2400);
-         }, 2500);
+               $('.js-imgRefresh').removeClass('bounce');
+             }, 3000);
+         }, 3050);
          return false; //stop processing
        }
 
@@ -138,12 +138,14 @@
 
 
    //  RESETVARIANTS ()
-   // removes all stored focal points for this image, and 
+   // removes all stored focal points for variants of this image 
    function resetVariants() {
      if (confirm("Reset ALL variants for this image?")) {
 
        //empty variants object and save it to localStorage
-       imgMargins[imgId].variants = {};
+       if ((imgMargins[imgId]) != undefined) {
+        imgMargins[imgId].variants = {};
+       }
        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
 
        //hide box from grid
@@ -171,10 +173,12 @@
 
 
    //  COMMONIMAGE ()
-   // removes all stored focal points for this image, and 
+   // lets user choose common focal point for all images
    function commonImage() {
        
        isVariant = false;
+       $('.js-imgRefresh').removeClass('bounce');
+       $('.js-imgRefresh').fadeOut();
        $('.js-whichFocal').html('<span style="color: #1078b2;">variant</span>');
 
        //give feedback to user
@@ -182,7 +186,7 @@
        $('.js-feedback').html('Saving a common focal point will not overwrite variant focal&nbsp;points');
        $('.js-feedback').addClass('msg-blue');
        $('.js-feedback').removeClass('msg-green msg-red msg-yellow');
-       $('.ribbon').hide();
+       $('.ribbon').fadeOut();
           
        //reset the box (not the selection)
        $('.js-box').css({ 
@@ -417,7 +421,7 @@
      $('body, html').animate({ scrollTop: 0 }, 200);
      $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
      $('.js-variantName').html(variantName.replace('bounce', ''));
-     $('.ribbon, .js-imgRefresh').show();
+     $('.ribbon, .js-imgRefresh').fadeIn();
      $('.js-box').css({
        'top': -100,
        'left': -100,
