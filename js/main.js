@@ -51,8 +51,8 @@
    function saveImgMargins() {
 
      //make clicked box green
-     $('.js-box').css({ 'background-color': '#00ff00' });
-     $('.js-box').html('<span class="tick" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10004;</span>');
+     $('.js-box').css({ 'background-color': '#00ff00' })
+                 .html('<span class="tick" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10004;</span>');
 
      //if selecting for a variant, extend the Variant object then extend imgMargins object
      if (isVariant) {
@@ -67,11 +67,11 @@
        
        // do not allow user to save a variant focal point before saving a common focal point
        if (imgMargins[imgId] === undefined) {
-         $('.js-box').css({ 'background-color': '#ff0000' });
-         $('.js-box').html('<span class="cross" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10006;</span>');
-         $('.js-feedback').addClass('msg-red');
-         $('.js-feedback').addClass('msg-green msg-blue msg-yellow');
-         $('.js-feedback').html('Please select a common focal point before selecting&nbsp;variants');
+         $('.js-box').css({ 'background-color': '#ff0000' })
+                     .html('<span class="cross" style="left:' + ((squareWidth - 10) / 2) + 'px; top:' + ((squareHeight - 20) / 2) + 'px;">&#10006;</span>');
+         $('.js-feedback').addClass('msg-red')
+                          .addClass('msg-green msg-blue msg-yellow')
+                          .html('Please select a common focal point before selecting&nbsp;variants');
          setTimeout( function() {
            $('.js-imgRefresh').addClass('bounce');
            setTimeout( function() {
@@ -125,8 +125,8 @@
      else {
        $('.js-feedback').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
      }
-     $('.js-feedback').addClass('msg-green');
-     $('.js-feedback').removeClass('msg-red msg-yellow msg-blue');
+     $('.js-feedback').addClass('msg-green')
+                      .removeClass('msg-red msg-yellow msg-blue');
 
      //restore all variants
      $('.output').show();
@@ -146,6 +146,9 @@
        if ((imgMargins[imgId]) != undefined) {
         imgMargins[imgId].variants = {};
        }
+
+       variant = {};
+       varTmp = {};
        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
 
        //hide box from grid
@@ -157,13 +160,14 @@
        $('.js-box').html('');
 
        //give feedback to user
-       $('.js-feedback').html('All variant focal points reset');
-       $('.js-feedback').addClass('msg-yellow');
-       $('.js-feedback').removeClass('msg-green msg-red msg-blue');
+       $('.js-feedback').html('All variant focal points reset')
+                        .addClass('msg-yellow')
+                        .removeClass('msg-green msg-red msg-blue');
 
        $('.output').show();
 
        var obj = JSON.parse(localStorage.getItem('imgMargins'));
+       console.log(obj);
        calcMargins(obj[imgId]);
      } 
      else {
@@ -177,15 +181,15 @@
    function commonImage() {
        
        isVariant = false;
-       $('.js-imgRefresh').removeClass('bounce');
-       $('.js-imgRefresh').fadeOut();
+       $('.js-imgRefresh').removeClass('bounce')
+                          .fadeOut();
        $('.js-whichFocal').html('<span style="color: #1078b2;">variant</span>');
 
        //give feedback to user
        $('.js-whichFocal').html('<span style="color: #705010;">common</span>');
-       $('.js-feedback').html('Saving a common focal point will not overwrite variant focal&nbsp;points');
-       $('.js-feedback').addClass('msg-blue');
-       $('.js-feedback').removeClass('msg-green msg-red msg-yellow');
+       $('.js-feedback').html('Saving a common focal point will not overwrite variant focal&nbsp;points')
+                        .addClass('msg-blue')
+                        .removeClass('msg-green msg-red msg-yellow');
        $('.ribbon').fadeOut();
           
        //reset the box (not the selection)
@@ -362,7 +366,7 @@
      });
        
     //if a variant, don't let it reassume the parent X and Y coords
-    if (focal != undefined && isVariant) {
+    if (focal != undefined && focal.variants[variantName] != undefined && isVariant) {
        squareClicked[0] = focal.variants[variantName].X;
        squareClicked[1] = focal.variants[variantName].Y;
      }
@@ -395,8 +399,8 @@
    //when a focal point is clicked colour the grid square and update output
    gridImg.on('click', function (e) {
      //color the box they clicked red
-     $('.js-box').css({ 'background-color': '#1078b2' });
-     $('.js-box').html('');
+     $('.js-box').css({ 'background-color': '#1078b2' })
+                 .html('');
 
      //get which square user clicked on
      calcSquareClicked(e);
@@ -419,8 +423,8 @@
      variantName = $(this).attr('class').replace('output ', '');
 
      $('body, html').animate({ scrollTop: 0 }, 200);
-     $('.js-variantMsg').html('Selecting focal for ' + variantName).show();
-     $('.js-variantName').html(variantName.replace('bounce', ''));
+     $('.js-variantMsg').html('Selecting focal for ' + variantName).show()
+                        .html(variantName.replace('bounce', ''));
      $('.ribbon, .js-imgRefresh').fadeIn();
      $('.js-box').css({
        'top': -100,
