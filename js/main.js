@@ -425,6 +425,7 @@
      $('body, html').animate({ scrollTop: 0 }, 200);
      $('.js-variantMsg').html('Selecting focal for ' + variantName).show()
                         .html(variantName.replace('bounce', ''));
+     $('.js-variantName').html(variantName);
      $('.ribbon, .js-imgRefresh').fadeIn();
      $('.js-box').css({
        'top': -100,
