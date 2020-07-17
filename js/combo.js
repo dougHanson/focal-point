@@ -67,4 +67,4 @@
       }, 200);
 
       console.log(obj);
-    });
+    }).trigger('resize');
