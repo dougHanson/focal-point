@@ -3,7 +3,7 @@
    //var imgSrc = 'img/teacher.jpg';
    //var imgSrc = 'img/students.jpg';
    //var imgSrc = 'img/couple@3x.jpg';
-   //var imgSrc = 'img/tree.jpg';    
+   //var imgSrc = 'img/tree.jpg';
    //var imgSrc = 'img/street.jpg';
    //var imgSrc = 'img/ocean.jpg';
    var imgSrc = 'img/mountain.jpg';
@@ -64,7 +64,7 @@
        };
 
        $.extend(variant, varTmp);
-       
+
        // do not allow user to save a variant focal point before saving a common focal point
        if (imgMargins[imgId] === undefined) {
          $('.js-box').css({ 'background-color': '#ff0000' })
@@ -99,7 +99,7 @@
              "grid": gridSize,
              "variants": variant
            };
-         } 
+         }
          else {
            tmp[imgId] = {
              "X": squareClicked[0],
@@ -114,16 +114,15 @@
      $.extend(imgMargins, tmp); // must be done this way to satisfy IE
      localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
 
+     // save to external JSON file
      $.ajax
      ({
-         type: "GET",
-         dataType : 'json',
-         async: false,
-         url: 'save_json.php',
-         data: { data: JSON.stringify(imgMargins) },
-         success: function () {alert("Thanks!"); },
-         failure: function() {alert("Error!");}
-     });     
+        type: "GET",
+        dataType : 'json',
+        async: false,
+        url: 'save_json.php',
+        data: { data: JSON.stringify(imgMargins) }
+     });
 
      //get saved focal point for image
      var obj = JSON.parse(localStorage.getItem('imgMargins'));
@@ -132,7 +131,7 @@
      // show either the general focal point, or the variant focal point
      if (isVariant) {
        $('.js-feedback').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
-     } 
+     }
      else {
        $('.js-feedback').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
      }
@@ -149,7 +148,7 @@
 
 
    //  RESETVARIANTS ()
-   // removes all stored focal points for variants of this image 
+   // removes all stored focal points for variants of this image
    function resetVariants() {
      if (confirm("Reset ALL variants for this image?")) {
 
@@ -162,11 +161,21 @@
        varTmp = {};
        localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
 
+      // save to external JSON file
+       $.ajax
+       ({
+          type: "GET",
+          dataType : 'json',
+          async: false,
+          url: 'save_json.php',
+          data: { data: JSON.stringify(imgMargins) }
+       });
+
        //hide box from grid
-       $('.js-box').css({ 
-         'top': -100, 
-         'left': -100, 
-         'opacity': 0 
+       $('.js-box').css({
+         'top': -100,
+         'left': -100,
+         'opacity': 0
        });
        $('.js-box').html('');
 
@@ -180,7 +189,7 @@
        var obj = JSON.parse(localStorage.getItem('imgMargins'));
        console.log(obj);
        calcMargins(obj[imgId]);
-     } 
+     }
      else {
        return false;
      }
@@ -190,7 +199,7 @@
    //  COMMONIMAGE ()
    // lets user choose common focal point for all images
    function commonImage() {
-       
+
        isVariant = false;
        $('.js-imgRefresh').removeClass('bounce')
                           .fadeOut();
@@ -202,12 +211,12 @@
                         .addClass('msg-blue')
                         .removeClass('msg-green msg-red msg-yellow');
        $('.ribbon').fadeOut();
-          
+
        //reset the box (not the selection)
-       $('.js-box').css({ 
-         'top': -100, 
-         'left': -100, 
-         'opacity': 0 
+       $('.js-box').css({
+         'top': -100,
+         'left': -100,
+         'opacity': 0
        });
 
        $('.output').show();
@@ -225,7 +234,7 @@
    function layGrid() {
 
      //clear the grid to start
-     $('.js-grid').html(''); 
+     $('.js-grid').html('');
 
      //get dimensions of uploaded image
      imgWidth = uploadImg.width();
@@ -244,10 +253,10 @@
      }
 
      //reset the box (not the selection)
-     $('.js-box').css({ 
-       'top': -100, 
-       'left': -100, 
-       'opacity': 0 
+     $('.js-box').css({
+       'top': -100,
+       'left': -100,
+       'opacity': 0
      });
 
    } //end layGrid()
@@ -261,8 +270,8 @@
          if (gridSize <= 50 && gridSize >= 2) {
            layGrid();
          }
-         else { 
-           alert('Please enter a value between 2 and 50'); 
+         else {
+           alert('Please enter a value between 2 and 50');
          }
        }; //end gridSize()*/
 
@@ -270,7 +279,7 @@
 
    //  CALCSQUARECLICKED ()
    //when a square on the grid is clicked, get it's x and y offset within its bounding container
-   //divide it by width of one square to return it as a multiple of grid squares, then round that value to the nearest integer        
+   //divide it by width of one square to return it as a multiple of grid squares, then round that value to the nearest integer
    function calcSquareClicked(e) {
      var offset = gridImg.offset();
      var scrollTop = $(window).scrollTop();
@@ -303,7 +312,7 @@
    //  CALCMARGINS ()
    //calculate margins based on wrapping container dimensions
    function calcMargins(focal) {
-     
+
      //if we're passing a saved focal point through, use that instead
      if (focal != undefined) {
        squareClicked[0] = focal.X;
@@ -336,7 +345,7 @@
              'min-width': '100%'
            });
          }
-       } 
+       }
        else {
          $(this).css({
            'height': '120%',
@@ -351,14 +360,14 @@
        var playY = $(this).height() - outputContainerHeight;
 
        //how much we move the image is the number of squares as a % of play
-       //For example, if we have a 900px image and a 300px container, the play will be 900px - 300px = 600px play. 
-       //If the grid has 12 squares, moving it 3 squares will pull image 3/12 * 600px = 150px.        
+       //For example, if we have a 900px image and a 300px container, the play will be 900px - 300px = 600px play.
+       //If the grid has 12 squares, moving it 3 squares will pull image 3/12 * 600px = 150px.
        if (focal != undefined && focal.variants.hasOwnProperty(containerClass)) {
          gridSize = focal.variants[containerClass].grid;
          positionX = (((focal.variants[containerClass].X) * (1 / (gridSize - 1))) * playX);
          positionY = (((focal.variants[containerClass].Y) * (1 / (gridSize - 1))) * playY);
 
-       } 
+       }
        else {
          positionX = (((squareClicked[0]) * (1 / (gridSize - 1))) * playX);
          positionY = (((squareClicked[1]) * (1 / (gridSize - 1))) * playY);
@@ -375,13 +384,13 @@
        });
 
      });
-       
+
     //if a variant, don't let it reassume the parent X and Y coords
     if (focal != undefined && focal.variants[variantName] != undefined && isVariant) {
        squareClicked[0] = focal.variants[variantName].X;
        squareClicked[1] = focal.variants[variantName].Y;
      }
-     
+
    } // end calcMargins()
 
 
@@ -395,7 +404,7 @@
         $('.js-output, .uploaded').attr('src', URL.createObjectURL(f.files[0]));
       };
       reader.readAsDataURL(f.files[0]);
-      
+
       setTimeout(function () {
         layGrid();
         imgId = $('.uploaded').attr('src');
