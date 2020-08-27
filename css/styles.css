@@ -467,6 +467,11 @@ input {
   max-height: 200px; }
   .doug-variants .output:hover {
     border-color: #404040; }
+  .doug-variants .output img {
+    max-width: 200%; }
+    @media (min-width: 992px) {
+      .doug-variants .output img {
+        max-width: none; } }
 
 @media (min-width: 992px) {
   .doug-variants .output {
@@ -488,14 +493,18 @@ input {
   .doug-variants .hz-big {
     width: 80%;
     height: 25vh; }
+    .doug-variants .hz-big img {
+      width: 200% !important; }
   .doug-variants .hz-medium {
     width: 60%;
     height: 20vh; }
+    .doug-variants .hz-medium img {
+      width: 150% !important; }
   .doug-variants .hz-small {
     width: 20%;
     height: 10vh; }
     .doug-variants .hz-small img {
-      min-width: 150% !important; }
+      width: 200% !important; }
   .doug-variants .sq-big {
     width: 30%;
     height: 45vh; }
@@ -509,6 +518,4 @@ input {
       min-width: 150% !important; }
   .doug-variants .sq-xs {
     width: 7%;
-    height: 10vh; }
-    .doug-variants .sq-xs img {
-      min-width: 400% !important; } }
+    height: 10vh; } }

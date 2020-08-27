@@ -114,6 +114,17 @@
      $.extend(imgMargins, tmp); // must be done this way to satisfy IE
      localStorage.setItem('imgMargins', JSON.stringify(imgMargins));
 
+     $.ajax
+     ({
+         type: "GET",
+         dataType : 'json',
+         async: false,
+         url: 'save_json.php',
+         data: { data: JSON.stringify(imgMargins) },
+         success: function () {alert("Thanks!"); },
+         failure: function() {alert("Error!");}
+     });     
+
      //get saved focal point for image
      var obj = JSON.parse(localStorage.getItem('imgMargins'));
      console.log(obj);
