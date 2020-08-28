@@ -8,9 +8,9 @@
    //var imgSrc = 'img/ocean.jpg';
    var imgSrc = 'img/mountain.jpg';
    //var imgSrc = 'img/hills.jpg';
-   var imgSrc = 'img/sitting.jpg';
-   var imgSrc = 'img/spider-web.jpg';
-   var imgSrc = 'img/gorilla.jpg';
+   //var imgSrc = 'img/sitting.jpg';
+   //var imgSrc = 'img/spider-web.jpg';
+   //var imgSrc = 'img/gorilla.jpg';
 
    $('.js-output, .uploaded').attr('src', imgSrc); // set images
 
@@ -125,23 +125,33 @@
      });
 
      //get saved focal point for image
-     var obj = JSON.parse(localStorage.getItem('imgMargins'));
-     console.log(obj);
+     //var obj = JSON.parse(localStorage.getItem('imgMargins'));
+     //console.log(obj);
 
-     // show either the general focal point, or the variant focal point
-     if (isVariant) {
-       $('.js-feedback').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
-     }
-     else {
-       $('.js-feedback').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
-     }
-     $('.js-feedback').addClass('msg-green')
-                      .removeClass('msg-red msg-yellow msg-blue');
 
-     //restore all variants
-     $('.output').show();
 
-     calcMargins(obj[imgId]);
+    $.getJSON("js/imgMargins.json", function (data) {
+      obj = data;
+
+      // show either the general focal point, or the variant focal point
+      if (isVariant) {
+        $('.js-feedback').html('&#10004; Saved variant focal point: (' + obj[imgId].variants[variantName].X + ' , ' + obj[imgId].variants[variantName].Y + ')');
+      } 
+      else {
+        $('.js-feedback').html('&#10004; Saved common focal point: (' + obj[imgId].X + ' , ' + obj[imgId].Y + ')');
+      }
+      $('.js-feedback').addClass('msg-green')
+        .removeClass('msg-red msg-yellow msg-blue');
+
+      //restore all variants
+      $('.output').show();
+
+      calcMargins(obj[imgId]);
+
+    });
+     
+
+
 
    } // end saveImgMargins()
 
@@ -186,9 +196,14 @@
 
        $('.output').show();
 
-       var obj = JSON.parse(localStorage.getItem('imgMargins'));
-       console.log(obj);
-       calcMargins(obj[imgId]);
+      //  var obj = JSON.parse(localStorage.getItem('imgMargins'));
+      //  console.log(obj);
+      //  calcMargins(obj[imgId]);
+
+      $.getJSON("js/imgMargins.json", function(obj) {
+        calcMargins(obj[imgId]);
+      });  
+
      }
      else {
        return false;
@@ -221,8 +236,12 @@
 
        $('.output').show();
 
-       var obj = JSON.parse(localStorage.getItem('imgMargins'));
-       calcMargins(obj[imgId]);
+       //var obj = JSON.parse(localStorage.getItem('imgMargins'));
+       $.getJSON("js/imgMargins.json", function(obj) {
+        calcMargins(obj[imgId]);
+      });
+
+
 
    } // end commonImage()
 
@@ -398,7 +417,7 @@
    //  UPLOADFILE ()
    //gets file from hdd and uploads into container
     function uploadFile(f) {
-      var filePath = $('#file').val();
+      //var filePath = $('#file').val();
       var reader = new FileReader();
       reader.onload = function (e) {
         $('.js-output, .uploaded').attr('src', URL.createObjectURL(f.files[0]));
@@ -490,10 +509,14 @@
 
      //if image is already saved, load saved focal point, otherwise clacMargins will default it to centre of image
      if (imgId.length) {
-       var obj = JSON.parse(localStorage.getItem('imgMargins'));
+      //  var obj = JSON.parse(localStorage.getItem('imgMargins'));
+       $.getJSON("js/imgMargins.json", function(data) {
+        var obj = data;
+        console.log(obj);
+      });
 
        //set small delay to ensure images have resized before recalc of margins
-       if (obj != undefined) {
+       if (typeof obj != 'undefined') {
          console.log(obj);
          setTimeout(function () {
            calcMargins(obj[imgId]);

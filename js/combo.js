@@ -1,7 +1,26 @@
+    // DEFINE UPLOADED IMAGES - for testing only
+    var imgSrc = 'img/image@3x.jpg';
+    //var imgSrc = 'img/teacher.jpg';
+    //var imgSrc = 'img/students.jpg';
+    //var imgSrc = 'img/couple@3x.jpg';
+    //var imgSrc = 'img/tree.jpg';
+    //var imgSrc = 'img/street.jpg';
+    //var imgSrc = 'img/ocean.jpg';
+    var imgSrc = 'img/mountain.jpg';
+    //var imgSrc = 'img/hills.jpg';
+    //var imgSrc = 'img/sitting.jpg';
+    //var imgSrc = 'img/spider-web.jpg';
+    //var imgSrc = 'img/gorilla.jpg';
+
+    $('.js-output, .uploaded').attr('src', imgSrc); // set images
+      
+    
+    
     var squareClicked = [];
     var gridSize;
     var imgId;
     var variantName;
+    var obj = {};
 
     // CALCMARGINS()
     function calcMargins(focal) {
@@ -88,12 +107,18 @@
     $(window).on("load resize", function(e) {
 
       //get stored focal points - set to null if nothing defined
-      var obj = JSON.parse(localStorage.getItem('imgMargins')) || {};
+      //var obj = JSON.parse(localStorage.getItem('imgMargins')) || {};
+      $.getJSON("js/imgMargins.json", function(data) {
+        var obj = data || {};
+        console.log(obj);
+        calcMargins(obj);
+      });
+
 
       //set small delay to ensure images have resized before recalc of margins
-      setTimeout(function() {
-        calcMargins(obj);
-      }, 200);
+      // setTimeout(function() {
+      //   calcMargins(obj);
+      // }, 200);
 
-      console.log(obj);
+      //console.log(obj);
     }).trigger('resize');
